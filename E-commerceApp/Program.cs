@@ -1,4 +1,7 @@
 
+using ECA.Infrastructure.Contexts;
+using ECA.Infrastructure.Services.CustomerService;
+
 namespace E_commerceApp
 {
     public class Program
@@ -13,6 +16,8 @@ namespace E_commerceApp
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddDbContext<EcommerceAppContext>();   
 
             var app = builder.Build();
 
