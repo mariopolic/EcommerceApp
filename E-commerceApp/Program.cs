@@ -1,5 +1,7 @@
 
 using ECA.Infrastructure.Contexts;
+using ECA.Infrastructure.Repositories;
+using ECA.Infrastructure.Repositories.EF_Core;
 using ECA.Infrastructure.Services.CustomerService;
 
 namespace E_commerceApp
@@ -9,7 +11,8 @@ namespace E_commerceApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            // injecting repositories
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             // Add services to the container.
 
             builder.Services.AddControllers();

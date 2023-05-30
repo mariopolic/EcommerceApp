@@ -1,5 +1,6 @@
 ﻿using ECA.Core.Models;
 using ECA.Infrastructure.Services.CustomerService;
+using ECA.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -33,15 +34,12 @@ namespace E_commerceApp.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddCustomer(Customer customer)
-        {
-            var result = await customerService.AddCustomer(customer);
-            return Ok(result);
-        }
+        public async Task<IActionResult> AddCustomer([FromBody]CustomerRequestModel customer)
+            =>Ok(await this.customerService.AddCustomer(customer));
+
         [HttpPut("update/{customerId}")]
         public async Task<IActionResult> UpdateCustomer(int customerId, Customer request)
         {
-          
             return Ok();
         }
 

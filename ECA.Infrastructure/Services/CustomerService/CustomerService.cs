@@ -46,7 +46,13 @@ namespace ECA.Infrastructure.Services.CustomerService
 
         public async Task<CustomerResponseModel> GetSingleCustomer(int customerid)
         {
-            return new CustomerResponseModel();
+            var customer = await this.CustomerRepository.GetByIdAsync(customerid);
+            if(customer == null)
+            {
+                throw new Exception("User not found");
+            }
+            CustomerResponseModel response = CustomerFactory.Create(customer);
+            return response;
         }
 
         public async Task<CustomerResponseModel> UpdateCustomer(int customerId, Customer request)
