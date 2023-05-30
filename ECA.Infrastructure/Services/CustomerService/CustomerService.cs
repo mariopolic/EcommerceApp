@@ -1,5 +1,8 @@
 ﻿using ECA.Core.Models;
+using ECA.Infrastructure.Factories;
+using ECA.Infrastructure.Repositories;
 using ECA.ViewModels.ResponseModel;
+using ECA.ViewModels.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,38 +14,34 @@ namespace ECA.Infrastructure.Services.CustomerService
 {
     public class CustomerService : ICustomerService
     {
-        private static List<Customer> customers = new List<Customer>
+        private readonly ICustomerRepository CustomerRepository;
+        public CustomerService(ICustomerRepository customerRepository)
         {
-        new Customer {
-            Id = 1,
-            FirstName="Faruk",
-            LastName="Sackin",
-            City="Cazin",
-            Address="Koliste"
-        },  new Customer {
-            Id = 2,
-            FirstName="Zejnin",
-            LastName="Mcgregor",
-            City="Cazin",
-            Address="Tartari"
+         CustomerRepository = customerRepository;
         }
-        };
-        public Task<CustomerResponseModel> AddCustomer(Customer customer)
+        public async Task<CustomerResponseModel> AddCustomer(CustomerRequestModel customer)
         {
-            throw new NotImplementedException();
+        var newCustomer = CustomerFactory.Create(customer);
+        await this.CustomerRepository.AddAsync(newCustomer);
+        var response = CustomerFactory.Create(newCustomer);
+        return response;
         }
 
-        public async Task<SuccessResponseModel> DeleteCustomer(int customerId, Customer request)
+        public async Task<SuccessResponseModel> DeleteCustomer(int customerId)
         {
-            Customer updateCustomer = customers.Find(x => x.Id == customerId);
+            Customer updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
             if (updateCustomer == null)
-               updateCustomer.IsDeleted = true;
+               throw new Exception("Customer does not exist!");
+               
+            updateCustomer.IsDeleted = true;
             return new SuccessResponseModel() { Success = updateCustomer.IsDeleted };
         }
 
         public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomers()
         {
-            return new List<CustomerResponseModel>();
+            var allCustomers = (await this.CustomerRepository.GetAsync(x=>x.IsDeleted == false)).ToList();
+            var responseModels = allCustomers.Select(x => CustomerFactory.Create(x));
+            return responseModels;
         }
 
         public async Task<CustomerResponseModel> GetSingleCustomer(int customerid)
@@ -52,12 +51,13 @@ namespace ECA.Infrastructure.Services.CustomerService
 
         public async Task<CustomerResponseModel> UpdateCustomer(int customerId, Customer request)
         {
-            var updateCustomer = customers.Find(x => x.Id == customerId);
+            var updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
             updateCustomer.FirstName = request.FirstName;
             updateCustomer.LastName = request.LastName;
             updateCustomer.City = request.City;
             updateCustomer.Address = request.Address;
-            return new CustomerResponseModel();
+            var response = CustomerFactory.Create(updateCustomer);
+            return response;
         }
     }
 }

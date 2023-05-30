@@ -46,9 +46,9 @@ namespace E_commerceApp.Controllers
         }
 
         [HttpDelete("delete/{customerId}")]
-        public async Task<IActionResult> DeleteCustomer(int customerId, Customer request)
+        public async Task<IActionResult> DeleteCustomer(int customerId)
         {
-            var result = customerService.DeleteCustomer(customerId, request);
+            var result = customerService.DeleteCustomer(customerId);
             if (result == null)
                 return NotFound("Sorry but this customer does not exist");
             return Ok(result);
