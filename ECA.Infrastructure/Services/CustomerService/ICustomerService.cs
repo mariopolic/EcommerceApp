@@ -15,7 +15,7 @@ namespace ECA.Infrastructure.Services.CustomerService
         Task<IEnumerable<CustomerResponseModel>> GetAllCustomers();
         Task<CustomerResponseModel> GetSingleCustomer(int customerid);
         Task<CustomerResponseModel> AddCustomer(CustomerRequestModel customer);
-        Task<CustomerResponseModel> UpdateCustomer(int customerId, Customer request);
+        Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request);
         Task<SuccessResponseModel> DeleteCustomer(int customerId);
     }
 }

@@ -55,13 +55,14 @@ namespace ECA.Infrastructure.Services.CustomerService
             return response;
         }
 
-        public async Task<CustomerResponseModel> UpdateCustomer(int customerId, Customer request)
+        public async Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request)
         {
             var updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
             updateCustomer.FirstName = request.FirstName;
             updateCustomer.LastName = request.LastName;
             updateCustomer.City = request.City;
             updateCustomer.Address = request.Address;
+            await this.CustomerRepository.UpdateAsync(updateCustomer);
             var response = CustomerFactory.Create(updateCustomer);
             return response;
         }
