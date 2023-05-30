@@ -24,7 +24,7 @@ namespace E_commerceApp.Controllers
             var customers = await customerService.GetAllCustomers();
             return Ok(customers);
         }
-        [HttpGet("get/{customerId}")]
+        [HttpGet("get/{customerid}")]
         public async Task<IActionResult> GetSingleCustomer(int customerid)
         {
          var customer = await this.customerService.GetSingleCustomer(customerid);
