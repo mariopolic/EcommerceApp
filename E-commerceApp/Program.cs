@@ -3,6 +3,7 @@ using ECA.Infrastructure.Contexts;
 using ECA.Infrastructure.Repositories;
 using ECA.Infrastructure.Repositories.EF_Core;
 using ECA.Infrastructure.Services.CustomerService;
+using ECA.Infrastructure.Services.ProductService;
 
 namespace E_commerceApp
 {
@@ -12,15 +13,20 @@ namespace E_commerceApp
         {
             var builder = WebApplication.CreateBuilder(args);
             // injecting repositories
-            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-            // Add services to the container.
 
+            builder.Services.AddDbContext<EcommerceAppContext>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            // Add services to the container.
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<ICustomerService, CustomerService>();
-            builder.Services.AddDbContext<EcommerceAppContext>();   
+           
+        
+            
 
             var app = builder.Build();
 
