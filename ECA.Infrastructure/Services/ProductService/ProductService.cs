@@ -29,9 +29,15 @@ namespace ECA.Infrastructure.Services.ProductService
                 return response;
         }
 
-        public Task<SuccessResponseModel> DeleteProduct(int customerId)
+        public async Task<SuccessResponseModel> DeleteProduct(int productId)
         {
-            throw new NotImplementedException();
+         Product deleteProduct = await this.productRepository.GetByIdAsync(productId);
+            if (deleteProduct == null)
+                throw new Exception("Customer does not exist!");
+           
+            deleteProduct.IsDeleted = true;
+            await this.productRepository.UpdateAsync(deleteProduct);
+            return new SuccessResponseModel() { Success = deleteProduct.IsDeleted };
         }
 
         public async Task<IEnumerable<ProductResponseModel>> GetAllProducts()
@@ -44,7 +50,7 @@ namespace ECA.Infrastructure.Services.ProductService
         public async Task<ProductResponseModel> GetSingleProduct(int productId)
         {
             var product = await this.productRepository.GetByIdAsync(productId);
-            if (product == null)
+            if (product == null ||product.IsDeleted == true)
             {
                 throw new Exception("Product not found");
             }

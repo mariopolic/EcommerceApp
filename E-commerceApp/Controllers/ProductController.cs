@@ -48,9 +48,12 @@ namespace E_commerceApp.Controllers
         }
 
         [HttpDelete("delete/{productId}")]
-        public  IActionResult DeleteProduct(int productId)
+        public  async Task<IActionResult> DeleteProduct(int productId)
         {
-            return Ok(productId);
+            var result = await this._productService.DeleteProduct(productId);
+            if (result == null)
+                return NotFound("Sorry but this product does not exist");
+            return Ok(result);
         }
     }
 }
