@@ -9,8 +9,8 @@ namespace ECA.Core.Models
     public class Order
     {
         public int Id { get; set; }
-        public Customer Customer { get; set; }
-        public int CustomerId { get; set; }
-        public List<OrderItem> OrderProduct { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual int CustomerId { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

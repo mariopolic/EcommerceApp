@@ -13,7 +13,7 @@ namespace ECA.Infrastructure.Factories
     {
         public static Customer Create(CustomerRequestModel RequestModel)
         {
-            return new Customer() { Address = RequestModel.Address, City = RequestModel.City, FirstName = RequestModel.FirstName, LastName = RequestModel.LastName };
+            return new Customer() { Address = RequestModel.Address, City = RequestModel.City, FirstName = RequestModel.FirstName, LastName = RequestModel.LastName, Order=new List<Order>() };
         }
 
         public static CustomerResponseModel Create(Customer customer)

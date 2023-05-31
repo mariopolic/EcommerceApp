@@ -13,7 +13,7 @@ namespace ECA.Core.Models
         public string LastName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
-        public List<Order> Orders { get; set; } 
+        public List<Order> Order { get; set; } 
         public bool IsDeleted { get; set; }
     }
 }
