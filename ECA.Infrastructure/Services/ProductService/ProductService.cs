@@ -1,4 +1,5 @@
-﻿using ECA.Core.Models;
+﻿using Azure.Core;
+using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
 using ECA.ViewModels.RequestModel;
@@ -33,19 +34,33 @@ namespace ECA.Infrastructure.Services.ProductService
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<ProductResponseModel>> GetAllProducts()
+        public async Task<IEnumerable<ProductResponseModel>> GetAllProducts()
         {
-            throw new NotImplementedException();
+            var allProducts = (await this.productRepository.GetAsync(x => x.IsDeleted == false)).ToList();
+            var responseModels = allProducts.Select(x => ProductFactory.Create(x));
+            return responseModels;
         }
 
-        public Task<ProductResponseModel> GetSingleProduct(int productId)
+        public async Task<ProductResponseModel> GetSingleProduct(int productId)
         {
-            throw new NotImplementedException();
+            var product = await this.productRepository.GetByIdAsync(productId);
+            if (product == null)
+            {
+                throw new Exception("Product not found");
+            }
+            ProductResponseModel response = ProductFactory.Create(product);
+            return response;
         }
 
-        public Task<ProductResponseModel> UpdateProduct(int customerId, CustomerRequestModel productRequest)
+        public async Task<ProductResponseModel> UpdateProduct(int productId, ProductRequestModel productRequest)
         {
-            throw new NotImplementedException();
+            var updateProduct = await this.productRepository.GetByIdAsync(productId);
+            updateProduct.ProductName = productRequest.ProductName;
+            updateProduct.ProductDescription = productRequest.ProductDescription;
+            updateProduct.ProductPrice = productRequest.ProductPrice;
+            await this.productRepository.UpdateAsync(updateProduct);
+            var response = ProductFactory.Create(updateProduct);
+            return response;
         }
     }
 }

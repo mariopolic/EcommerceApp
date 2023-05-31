@@ -12,6 +12,7 @@ namespace ECA.Core.Models
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public int ProductPrice { get; set; }
+        public bool IsDeleted { get; set; }
         public List<OrderItem> OrderItems { get; set; }
     }
 }

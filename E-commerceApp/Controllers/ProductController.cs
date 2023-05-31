@@ -18,28 +18,37 @@ namespace E_commerceApp.Controllers
             _productService = productService;
         }
         [HttpGet("GetAll")]
-        public  IActionResult GetAllProducts()
+        public async  Task<IActionResult> GetAllProducts()
         {
-            string dummy = "test";
-            return  Ok(dummy);
+            var products = await  _productService.GetAllProducts();
+            if(products == null)
+            {
+                return NotFound();
+            }
+            return Ok(products);
         }
         [HttpGet("get/{productid}")]
-        public IActionResult GetSingleCustomer(int productid)
+        public async Task<IActionResult> GetSingleCustomer(int productid)
         {
-            return Ok(productid);
+            var product = await _productService.GetSingleProduct(productid);
+            if(product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
         }
         [HttpPost("add")]
         public async Task<IActionResult> AddProduct([FromBody] ProductRequestModel productRequest)
            => Ok(await this._productService.AddProduct(productRequest));
 
         [HttpPut("update/{productId}")]
-        public IActionResult UpdateCustomer(int productId, [FromBody] ProductRequestModel productRequest)
+        public async Task<IActionResult> UpdateProduct(int productId, [FromBody] ProductRequestModel productRequest)
         {
-            return Ok(productRequest);
+            return Ok(await this._productService.UpdateProduct(productId, productRequest));
         }
 
         [HttpDelete("delete/{productId}")]
-        public  IActionResult DeleteCustomer(int productId)
+        public  IActionResult DeleteProduct(int productId)
         {
             return Ok(productId);
         }
