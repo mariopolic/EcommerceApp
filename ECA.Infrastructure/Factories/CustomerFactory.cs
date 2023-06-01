@@ -18,7 +18,11 @@ namespace ECA.Infrastructure.Factories
 
         public static CustomerResponseModel Create(Customer customer)
         {
-            return new CustomerResponseModel() { FirstName = customer.FirstName, LastName = customer.LastName, City = customer.City, Address = customer.Address };
+            if (customer != null)
+            {
+                return new CustomerResponseModel() { FirstName = customer.FirstName, LastName = customer.LastName, City = customer.City, Address = customer.Address };
+            }
+            return new CustomerResponseModel();
         }
     }
 }

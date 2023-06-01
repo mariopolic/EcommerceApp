@@ -37,14 +37,23 @@ namespace ECA.Infrastructure.Services.OrderService
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<OrderResponseModel>> GetAllOrders()
+        public async Task<IEnumerable<OrderResponseModel>> GetAllOrders()
         {
-            throw new NotImplementedException();
+            var allProducts = (await this.orderRepository.GetAsync(x => x.IsDeleted == false)).ToList();
+            var responseModels = allProducts.Select(x => OrderFactory.Create(x));
+            return responseModels; 
         }
 
-        public Task<OrderResponseModel> GetSingleOrder(int OrderId)
+        public async Task<OrderResponseModel> GetSingleOrder(int OrderId)
         {
-            throw new NotImplementedException();
+            var order = await this.orderRepository.GetByIdAsync(OrderId);
+            if (order == null || order.IsDeleted)
+            {
+                throw new Exception("Order not found");
+            }
+
+            var response = OrderFactory.Create(order);
+            return response;
         }
 
         public Task<OrderResponseModel> UpdateOrder(int OrderId, int customerId)

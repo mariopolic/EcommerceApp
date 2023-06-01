@@ -15,14 +15,14 @@ namespace E_commerceApp.Controllers
           orderService = OrderService;
         }
         [HttpGet("GetAll")]
-        public  IActionResult GetAllOrders()
+        public  async Task<IActionResult> GetAllOrders()
         {
-            return Ok();
+            return Ok(await this.orderService.GetAllOrders());
         }
         [HttpGet("get/{orderId}")]
-        public IActionResult GetSingleOrder(int orderId)
+        public async Task<IActionResult> GetSingleOrder(int orderId)
         {
-            return Ok();
+            return Ok(await this.orderService.GetSingleOrder(orderId));
         }
         [HttpPost("add/{customerId}")]
         public async Task<IActionResult> AddOrder(int customerId)

@@ -12,5 +12,6 @@ namespace ECA.Core.Models
         public virtual Customer Customer { get; set; }
         public virtual int CustomerId { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
+        public bool IsDeleted { get; set; } 
     }
 }

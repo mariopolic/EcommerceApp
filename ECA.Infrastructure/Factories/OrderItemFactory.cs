@@ -19,14 +19,17 @@ namespace ECA.Infrastructure.Factories
         public static ICollection<OrderItemResponseModel> Create(IEnumerable<OrderItem> orders)
         {
             var responseModels = new List<OrderItemResponseModel>();
-
-            foreach (var order in orders)
+            if(orders != null)
             {
-                var orderItemResponse = OrderItemFactory.Create(order);
-                responseModels.Add(orderItemResponse);
-            }
+                foreach (var order in orders)
+                {
+                    var orderItemResponse = OrderItemFactory.Create(order);
+                    responseModels.Add(orderItemResponse);
+                }
 
-            return responseModels;
+                return responseModels;
+            }
+            return new List<OrderItemResponseModel>();
         }
     }
 }
