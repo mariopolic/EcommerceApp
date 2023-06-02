@@ -11,7 +11,7 @@ namespace ECA.Infrastructure.Repositories.EF_Core
     public class OrderItemRepository : BaseRepository<OrderItem>, IOrderItemRepository
     {
         private readonly EcommerceAppContext ecommerceAppContext;
-        public CustomerRepository(EcommerceAppContext ecommerceAppContext) : base(ecommerceAppContext)
+        public OrderItemRepository(EcommerceAppContext ecommerceAppContext) : base(ecommerceAppContext)
         {
             this.ecommerceAppContext = ecommerceAppContext;
         }
