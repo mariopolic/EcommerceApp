@@ -15,24 +15,28 @@ namespace ECA.Infrastructure.Repositories.EF_Core
         {
             this.ecommerceAppContext = ecommerceAppContext;
         }
-        public Task<OrderItem> GetByCustomerAsync(int Customerid)
+        public async Task<OrderItem> GetByCustomerAsync(int Customerid)
         {
-            throw new NotImplementedException();
+          return await GetOrderItems().FirstOrDefaultAsync(x=>x.Order.CustomerId == Customerid);
         }
 
-        public Task<OrderItem> GetByIdAsync(int id)
+        public async Task<OrderItem> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await GetOrderItems().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<OrderItem> GetByPrice(int price)
+        public async Task<OrderItem> GetByPrice(int price)
         {
-            throw new NotImplementedException();
+            return await GetOrderItems().FirstOrDefaultAsync(x => x.Price == price);
         }
 
-        public Task<OrderItem> GetByProductIdAsync(int productid)
+        public async Task<OrderItem> GetByProductIdAsync(int productid)
         {
-            throw new NotImplementedException();
+            return await GetOrderItems().FirstOrDefaultAsync(x => x.ProductId == productid);
+        }
+        private IQueryable<OrderItem> GetOrderItems()
+        {
+            return this.ecommerceAppContext.OrderItems;
         }
     }
 }
