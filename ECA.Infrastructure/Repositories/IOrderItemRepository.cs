@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Repositories
 {
-    public interface IOrderItemRepository
+    public interface IOrderItemRepository:IRepository<OrderItem>
     {
         Task<OrderItem> GetByCustomerAsync(int Customerid);
         Task<OrderItem> GetByIdAsync(int id);

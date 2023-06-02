@@ -1,4 +1,5 @@
 ﻿using ECA.Core.Models;
+using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,11 @@ namespace ECA.Infrastructure.Factories
             var orders = new OrderItemResponseModel() { Price = order.Price, Quantity = order.Quantity, Product = product };
             return orders;
         }
+
+        public static OrderItem Create(OrderItemRequestModel orderItemRequest)
+        {
+            return new OrderItem() { ProductId = orderItemRequest.ProductId, Price = orderItemRequest.Price, Quantity = orderItemRequest.Quantity, OrderId = orderItemRequest.OrderId };
+        } 
         public static ICollection<OrderItemResponseModel> Create(IEnumerable<OrderItem> orders)
         {
             var responseModels = new List<OrderItemResponseModel>();
