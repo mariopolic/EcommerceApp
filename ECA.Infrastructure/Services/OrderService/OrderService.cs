@@ -1,6 +1,7 @@
 ﻿using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
+using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
 using System;
 using System.Collections.Generic;
@@ -56,9 +57,13 @@ namespace ECA.Infrastructure.Services.OrderService
             return response;
         }
 
-        public Task<OrderResponseModel> UpdateOrder(int OrderId, int customerId)
+        public async Task<OrderResponseModel> UpdateOrder(int OrderId,OrderRequestModel orderRequest)
         {
-            throw new NotImplementedException();
+            var updateOrder = await this.orderRepository.GetByIdAsync(OrderId);
+            updateOrder.CustomerId = orderRequest.customerId;
+            await this.productRepository.UpdateAsync(updateProduct);
+            var response = ProductFactory.Create(updateProduct);
+            return response;
         }
     }
 }

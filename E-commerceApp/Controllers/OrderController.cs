@@ -29,9 +29,9 @@ namespace E_commerceApp.Controllers
            => Ok(await this.orderService.AddOrder(customerId));
 
         [HttpPut("update/{OrderId}")]
-        public  IActionResult UpdateOrder(int OrderId, [FromBody] ProductRequestModel productRequest)
+        public  async Task<IActionResult> UpdateOrder(int OrderId, [FromBody] OrderRequestModel orderRequest)
         {
-            return Ok();
+            return Ok(await this.orderService.UpdateOrder(OrderId));
         }
 
         [HttpDelete("delete/{OrderId}")]
