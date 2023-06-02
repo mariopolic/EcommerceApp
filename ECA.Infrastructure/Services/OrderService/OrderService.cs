@@ -61,8 +61,8 @@ namespace ECA.Infrastructure.Services.OrderService
         {
             var updateOrder = await this.orderRepository.GetByIdAsync(OrderId);
             updateOrder.CustomerId = orderRequest.customerId;
-            await this.productRepository.UpdateAsync(updateProduct);
-            var response = ProductFactory.Create(updateProduct);
+            await this.orderRepository.UpdateAsync(updateOrder);
+            var response = OrderFactory.Create(updateOrder);
             return response;
         }
     }
