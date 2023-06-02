@@ -3,6 +3,7 @@ using ECA.Infrastructure.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,10 @@ namespace ECA.Infrastructure.Repositories.EF_Core
         {
             this.ecommerceAppContext = ecommerceAppContext;
         }
-
+        public override async Task<IEnumerable<Order>> GetAsync(Expression<Func<Order, bool>> predicate)
+        {
+            return await GetOrders().Where(predicate).Include(c => c.OrderItems).ThenInclude(x=>x.Product).ToListAsync();
+        }
         public async Task<Order> GetByCustomerAsync(int Customerid)
         {
             return await GetOrders().FirstOrDefaultAsync(c=>c.CustomerId == Customerid);
@@ -23,7 +27,7 @@ namespace ECA.Infrastructure.Repositories.EF_Core
 
         public async Task<Order> GetByIdAsync(int id)
         {
-            return await GetOrders().Include(x=>x.OrderItems).FirstOrDefaultAsync(o => o.Id == id);
+            return await GetOrders().Include(x=>x.OrderItems).ThenInclude(x=>x.Product).FirstOrDefaultAsync(o => o.Id == id);
         }
         private IQueryable<Order> GetOrders()
         {
