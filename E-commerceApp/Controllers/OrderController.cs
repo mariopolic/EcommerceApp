@@ -1,4 +1,5 @@
-﻿using ECA.Infrastructure.Services.OrderService;
+﻿using ECA.Core.Models;
+using ECA.Infrastructure.Services.OrderService;
 using ECA.ViewModels.RequestModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,9 +36,12 @@ namespace E_commerceApp.Controllers
         }
 
         [HttpDelete("delete/{OrderId}")]
-        public  IActionResult DeleteOrder(int OrderId)
+        public  async Task<IActionResult> DeleteOrder(int OrderId)
         {
-            return Ok(OrderId);
+            var result = await this.orderService.DeleteOrder(OrderId);
+            if (result == null)
+                return NotFound("Sorry but this product does not exist");
+            return Ok(result);
         }
     }
 }

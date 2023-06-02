@@ -14,6 +14,6 @@ namespace ECA.Infrastructure.Services.OrderService
         Task<OrderResponseModel> GetSingleOrder(int OrderId);
         Task<OrderResponseModel> AddOrder(int customerId);
         Task<OrderResponseModel> UpdateOrder(int OrderId, OrderRequestModel orderRequest);
-        Task<OrderResponseModel> DeleteOrder(int customerId);
+        Task<SuccessResponseModel> DeleteOrder(int customerId);
     }
 }

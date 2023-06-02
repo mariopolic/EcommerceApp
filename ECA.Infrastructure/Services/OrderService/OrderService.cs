@@ -33,9 +33,15 @@ namespace ECA.Infrastructure.Services.OrderService
           return response;
         }
 
-        public Task<OrderResponseModel> DeleteOrder(int customerId)
+        public async Task<SuccessResponseModel> DeleteOrder(int orderId)
         {
-            throw new NotImplementedException();
+            Order deleteOrder = await this.orderRepository.GetByIdAsync(orderId);
+            if (deleteOrder == null)
+                throw new Exception("Order does not exist!");
+
+            deleteOrder.IsDeleted = true;
+            await this.orderRepository.UpdateAsync(deleteOrder);
+            return new SuccessResponseModel() { Success = deleteOrder.IsDeleted };
         }
 
         public async Task<IEnumerable<OrderResponseModel>> GetAllOrders()
