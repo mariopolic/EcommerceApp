@@ -17,10 +17,14 @@ namespace ECA.Infrastructure.Factories
         }
         public static OrderResponseModel Create(Order order)
         {
-            var  newOrders =  OrderItemFactory.Create(order.OrderItems);
-            var newCustomer = CustomerFactory.Create(order.Customer);
-            var orderResponseModel = new OrderResponseModel() { CustomerId = order.CustomerId,OrderItems = newOrders };
-            return orderResponseModel;
+            if (order != null)
+            {
+                var newOrders = OrderItemFactory.Create(order.OrderItems);
+                var newCustomer = CustomerFactory.Create(order.Customer);
+                var orderResponseModel = new OrderResponseModel() { CustomerId = order.CustomerId, OrderItems = newOrders };
+                return orderResponseModel;
+            }
+           return new OrderResponseModel();
         }
     }
 }

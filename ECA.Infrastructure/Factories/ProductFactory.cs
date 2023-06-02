@@ -18,7 +18,11 @@ namespace ECA.Infrastructure.Factories
 
         public static ProductResponseModel Create(Product productResponse)
         {
-            return new ProductResponseModel() { ProductPrice = productResponse.ProductPrice, ProductName = productResponse.ProductName, ProductDescription = productResponse.ProductDescription };
+            if (productResponse != null)
+            {
+                return new ProductResponseModel() { ProductPrice = productResponse.ProductPrice, ProductName = productResponse.ProductName, ProductDescription = productResponse.ProductDescription };
+            }
+            return new ProductResponseModel();
         }
     }
 }

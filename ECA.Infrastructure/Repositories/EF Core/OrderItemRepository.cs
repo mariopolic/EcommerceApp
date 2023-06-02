@@ -36,7 +36,7 @@ namespace ECA.Infrastructure.Repositories.EF_Core
         }
         private IQueryable<OrderItem> GetOrderItems()
         {
-            return this.ecommerceAppContext.OrderItems;
+            return this.ecommerceAppContext.OrderItems.Include(x => x.Order).Include(x => x.Product);
         }
     }
 }

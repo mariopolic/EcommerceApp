@@ -23,11 +23,11 @@ namespace ECA.Infrastructure.Repositories.EF_Core
 
         public async Task<Order> GetByIdAsync(int id)
         {
-            return await GetOrders().FirstOrDefaultAsync(o => o.Id == id);
+            return await GetOrders().Include(x=>x.OrderItems).FirstOrDefaultAsync(o => o.Id == id);
         }
         private IQueryable<Order> GetOrders()
         {
-            return this.ecommerceAppContext.Orders;
+            return this.ecommerceAppContext.Orders.Include(c => c.Customer).Include(o => o.OrderItems);
         }
     }
 }
