@@ -37,6 +37,17 @@ namespace E_commerceApp.Controllers
             }
             return Ok(product);
         }
+        [HttpGet("getbytitle/{productTitle}")]
+        public async Task<IActionResult> GetProductbyTitle(string productTitle)
+        {
+            return Ok(await this._productService.GetProductByTitle(productTitle));
+        }
+
+        [HttpGet("getbypricerange/From/{minPrice}/To/{maxPrice}")]
+        public async Task<IActionResult> GetProductsbyPriceRange(int minPrice, int maxPrice)
+        {
+            return Ok(await this._productService.GetProductByPriceRange(minPrice, maxPrice));
+        }
         [HttpPost("add")]
         public async Task<IActionResult> AddProduct([FromBody] ProductRequestModel productRequest)
            => Ok(await this._productService.AddProduct(productRequest));

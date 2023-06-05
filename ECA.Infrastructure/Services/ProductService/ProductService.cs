@@ -47,6 +47,20 @@ namespace ECA.Infrastructure.Services.ProductService
             return responseModels;
         }
 
+        public async Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(int minPrice, int maxPrice)
+        {
+            var allProducts = (await this.productRepository.GetAsync(x => x.IsDeleted == false && x.ProductPrice >= minPrice && x.ProductPrice <= maxPrice)).ToList();
+            var responseModels = allProducts.Select(x => ProductFactory.Create(x));
+            return responseModels;
+        }
+
+        public async Task<IEnumerable<ProductResponseModel>> GetProductByTitle(string title)
+        {
+            var allProducts = (await this.productRepository.GetAsync(x => x.IsDeleted == false && x.ProductName == title)).ToList();
+            var responseModels = allProducts.Select(x=> ProductFactory.Create(x));
+            return responseModels;
+        }
+
         public async Task<ProductResponseModel> GetSingleProduct(int productId)
         {
             var product = await this.productRepository.GetByIdAsync(productId);

@@ -15,6 +15,8 @@ namespace ECA.Infrastructure.Services.ProductService
         Task<ProductResponseModel> GetSingleProduct(int productId );
         Task<ProductResponseModel> AddProduct(ProductRequestModel productRequest);
         Task<ProductResponseModel> UpdateProduct(int productId, ProductRequestModel productRequest);
+        Task<IEnumerable<ProductResponseModel>> GetProductByTitle(string title);
+        Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(int minPrice,int maxPrice);
         Task<SuccessResponseModel> DeleteProduct(int productId);
     }
 }
