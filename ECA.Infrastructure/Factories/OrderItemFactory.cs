@@ -14,13 +14,22 @@ namespace ECA.Infrastructure.Factories
         public static OrderItemResponseModel Create(OrderItem order)
         {
             var product = ProductFactory.Create(order.Product);
-            var orders = new OrderItemResponseModel() { Price = order.Price, Quantity = order.Quantity, Product = product };
-            return orders;
+            var orders = new OrderItemResponseModel() { 
+                Price = order.Price, 
+                Quantity = order.Quantity, 
+                Product = product 
+            };
+                return orders;
         }
 
         public static OrderItem Create(OrderItemRequestModel orderItemRequest,int order)
         {
-            return new OrderItem() { ProductId = orderItemRequest.ProductId, Price = orderItemRequest.Price, Quantity = orderItemRequest.Quantity, OrderId = order};
+            return new OrderItem() { 
+                ProductId = orderItemRequest.ProductId, 
+                Price = orderItemRequest.Price, 
+                Quantity = orderItemRequest.Quantity, 
+                OrderId = order
+            };
         } 
         public static ICollection<OrderItemResponseModel> Create(IEnumerable<OrderItem> orders)
         {
@@ -30,7 +39,6 @@ namespace ECA.Infrastructure.Factories
                 foreach (var order in orders)
                 {
                     var orderItemResponse = OrderItemFactory.Create(order);
-                    //if order.IsDeleted!=false dodaj u niz!
                     if(order.IsDeleted == false)
                     {
                       responseModels.Add(orderItemResponse);

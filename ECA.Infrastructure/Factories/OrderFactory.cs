@@ -12,8 +12,12 @@ namespace ECA.Infrastructure.Factories
     {
         public static Order Create(int CustomerId)
         {
-            var order = new Order() { CustomerId = CustomerId, OrderItems = new List<OrderItem>()};
-            return order;
+            var order = new Order() 
+            { 
+                CustomerId = CustomerId, 
+                OrderItems = new List<OrderItem>()
+            };
+               return order;
         }
         public static OrderResponseModel Create(Order order)
         {
