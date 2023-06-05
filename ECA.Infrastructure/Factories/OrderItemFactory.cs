@@ -24,7 +24,8 @@ namespace ECA.Infrastructure.Factories
 
         public static OrderItem Create(OrderItemRequestModel orderItemRequest,int order)
         {
-            return new OrderItem() { 
+            return new OrderItem() 
+            { 
                 ProductId = orderItemRequest.ProductId, 
                 Price = orderItemRequest.Price, 
                 Quantity = orderItemRequest.Quantity, 
