@@ -32,9 +32,7 @@ namespace E_commerceApp.Controllers
         public async Task<IActionResult> AddOrder(int customerId)
            => Ok(await this.orderService.AddOrder(customerId));
 
-        [HttpPost("add/customer/{customerId}/order/{orderId}")]
-        public async Task<IActionResult> AddItemToOrder(int customerId,int orderId, [FromBody] OrderItemRequestModel orderItemRequest)
-       => Ok(await this.orderItemService.AddOrderItem(customerId,orderId,orderItemRequest));
+     
 
         [HttpPut("update/{OrderId}")]
         public  async Task<IActionResult> UpdateOrder(int OrderId, [FromBody] OrderRequestModel orderRequest)

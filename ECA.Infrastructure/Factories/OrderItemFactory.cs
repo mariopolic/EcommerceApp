@@ -18,9 +18,9 @@ namespace ECA.Infrastructure.Factories
             return orders;
         }
 
-        public static OrderItem Create(OrderItemRequestModel orderItemRequest)
+        public static OrderItem Create(OrderItemRequestModel orderItemRequest,int order)
         {
-            return new OrderItem() { ProductId = orderItemRequest.ProductId, Price = orderItemRequest.Price, Quantity = orderItemRequest.Quantity, OrderId = orderItemRequest.OrderId };
+            return new OrderItem() { ProductId = orderItemRequest.ProductId, Price = orderItemRequest.Price, Quantity = orderItemRequest.Quantity, OrderId = order};
         } 
         public static ICollection<OrderItemResponseModel> Create(IEnumerable<OrderItem> orders)
         {
@@ -30,7 +30,11 @@ namespace ECA.Infrastructure.Factories
                 foreach (var order in orders)
                 {
                     var orderItemResponse = OrderItemFactory.Create(order);
-                    responseModels.Add(orderItemResponse);
+                    //if order.IsDeleted!=false dodaj u niz!
+                    if(order.IsDeleted == false)
+                    {
+                      responseModels.Add(orderItemResponse);
+                    }
                 }
 
                 return responseModels;
