@@ -13,5 +13,6 @@ namespace ECA.Core.Models
         public virtual int CustomerId { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
         public bool IsDeleted { get; set; } 
+        public int OrderPrice { get; set; }
     }
 }

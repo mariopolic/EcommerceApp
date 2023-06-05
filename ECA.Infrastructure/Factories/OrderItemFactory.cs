@@ -15,7 +15,7 @@ namespace ECA.Infrastructure.Factories
         {
             var product = ProductFactory.Create(order.Product);
             var orders = new OrderItemResponseModel() { 
-                Price = order.Price, 
+                Price = product.ProductPrice * order.Quantity, 
                 Quantity = order.Quantity, 
                 Product = product 
             };
@@ -29,7 +29,7 @@ namespace ECA.Infrastructure.Factories
                 ProductId = orderItemRequest.ProductId, 
                 Price = orderItemRequest.Price, 
                 Quantity = orderItemRequest.Quantity, 
-                OrderId = order
+                OrderId = order,
             };
         } 
         public static ICollection<OrderItemResponseModel> Create(IEnumerable<OrderItem> orders)
