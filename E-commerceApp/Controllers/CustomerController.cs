@@ -25,7 +25,7 @@ namespace E_commerceApp.Controllers
         public async Task<IActionResult> GetSingleCustomer(int customerid)
         {
             var customer = await this.customerService.GetSingleCustomer(customerid);
-            if (customer.FirstName == null)
+            if (customer.FirstName == null && customer.LastName == null)
                 return NotFound("Sorry but this customer does not exist");
             return Ok(customer);
         }
