@@ -28,7 +28,7 @@ namespace E_commerceApp.Controllers
             return Ok(products);
         }
         [HttpGet("get/{productid}")]
-        public async Task<IActionResult> GetSingleCustomer(int productid)
+        public async Task<IActionResult> GetSingleProduct(int productid)
         {
             var product = await _productService.GetSingleProduct(productid);
             if(product == null)
