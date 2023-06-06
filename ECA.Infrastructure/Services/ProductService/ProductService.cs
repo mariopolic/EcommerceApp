@@ -1,33 +1,26 @@
-﻿using Azure.Core;
-using ECA.Core.Exceptions;
+﻿using ECA.Core.Exceptions;
 using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
 using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
-using ECA.ViewModels.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Services.ProductService
 {
-    public class ProductService:IProductService
+    public class ProductService : IProductService
     {
         private readonly IProductRepository productRepository;
-        public ProductService(IProductRepository productRepository) 
+        public ProductService(IProductRepository productRepository)
         {
-         this.productRepository = productRepository;
+            this.productRepository = productRepository;
         }
 
         public async Task<ProductResponseModel> AddProduct(ProductRequestModel productRequest)
         {
-                Product newProduct = ProductFactory.Create(productRequest);
-                await this.productRepository.AddAsync(newProduct);
-                var response = ProductFactory.Create(newProduct);
-                return response;
+            Product newProduct = ProductFactory.Create(productRequest);
+            await this.productRepository.AddAsync(newProduct);
+            var response = ProductFactory.Create(newProduct);
+            return response;
         }
 
         public async Task<SuccessResponseModel> DeleteProduct(int productId)
@@ -35,7 +28,7 @@ namespace ECA.Infrastructure.Services.ProductService
             Product deleteProduct = await this.productRepository.GetByIdAsync(productId);
             if (deleteProduct == null)
                 throw new EntityNotFoundException("Customer does not exist!");
-           
+
             deleteProduct.IsDeleted = true;
             await this.productRepository.UpdateAsync(deleteProduct);
             return new SuccessResponseModel() { Success = deleteProduct.IsDeleted };
@@ -58,14 +51,14 @@ namespace ECA.Infrastructure.Services.ProductService
         public async Task<IEnumerable<ProductResponseModel>> GetProductByTitle(string title)
         {
             var allProducts = (await this.productRepository.GetAsync(x => x.IsDeleted == false && x.ProductName == title)).ToList();
-            var responseModels = allProducts.Select(x=> ProductFactory.Create(x));
+            var responseModels = allProducts.Select(x => ProductFactory.Create(x));
             return responseModels;
         }
 
         public async Task<ProductResponseModel> GetSingleProduct(int productId)
         {
             var product = await this.productRepository.GetByIdAsync(productId);
-            if (product == null ||product.IsDeleted == true)
+            if (product == null || product.IsDeleted == true)
             {
                 throw new EntityNotFoundException("Product not found");
             }

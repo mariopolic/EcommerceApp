@@ -4,11 +4,6 @@ using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
 using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Services.OrderService
 {
@@ -18,20 +13,20 @@ namespace ECA.Infrastructure.Services.OrderService
         private readonly ICustomerRepository customerRepository;
         public OrderService(IOrderRepository OrderRepository, ICustomerRepository CustomerRepository)
         {
-         orderRepository = OrderRepository;
-         customerRepository = CustomerRepository;
+            orderRepository = OrderRepository;
+            customerRepository = CustomerRepository;
         }
         public async Task<OrderResponseModel> AddOrder(int customerId)
         {
-           Customer customer =  await this.customerRepository.GetByIdAsync(customerId);
-           if(customer == null)
+            Customer customer = await this.customerRepository.GetByIdAsync(customerId);
+            if (customer == null)
             {
                 throw new Exception("Customer does not exist!");
             }
-          Order newOrder =  OrderFactory.Create(customerId);
-          await this.orderRepository.AddAsync(newOrder);
-          var response = OrderFactory.Create(newOrder);
-          return response;
+            Order newOrder = OrderFactory.Create(customerId);
+            await this.orderRepository.AddAsync(newOrder);
+            var response = OrderFactory.Create(newOrder);
+            return response;
         }
 
         public async Task<SuccessResponseModel> DeleteOrder(int orderId)
@@ -49,14 +44,14 @@ namespace ECA.Infrastructure.Services.OrderService
         {
             var allOrders = (await this.orderRepository.GetAsync(x => x.IsDeleted == false)).ToList();
             var responseModels = allOrders.Select(x => OrderFactory.Create(x));
-            return responseModels; 
+            return responseModels;
         }
 
         public async Task<IEnumerable<OrderResponseModel>> GetAllOrdersFromCustomer(int customerId)
         {
-          var allOrders = (await this.orderRepository.GetAsync(x=>x.IsDeleted == false && x.CustomerId == customerId)).ToList();
-          var responseModels = allOrders.Select(x=> OrderFactory.Create(x));
-          return responseModels;
+            var allOrders = (await this.orderRepository.GetAsync(x => x.IsDeleted == false && x.CustomerId == customerId)).ToList();
+            var responseModels = allOrders.Select(x => OrderFactory.Create(x));
+            return responseModels;
         }
 
         public async Task<OrderResponseModel> GetSingleOrder(int OrderId)
@@ -71,7 +66,7 @@ namespace ECA.Infrastructure.Services.OrderService
             return response;
         }
 
-        public async Task<OrderResponseModel> UpdateOrder(int OrderId,OrderRequestModel orderRequest)
+        public async Task<OrderResponseModel> UpdateOrder(int OrderId, OrderRequestModel orderRequest)
         {
             var updateOrder = await this.orderRepository.GetByIdAsync(OrderId);
             updateOrder.CustomerId = orderRequest.customerId;

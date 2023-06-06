@@ -1,15 +1,9 @@
-﻿using Azure.Core;
-using ECA.Core.Exceptions;
+﻿using ECA.Core.Exceptions;
 using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
 using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Services.OrderItemService
 {
@@ -26,7 +20,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
         public async Task<OrderItemResponseModel> AddOrderItem(int customerId, int orderId, OrderItemRequestModel orderItemRequest)
         {
             Customer customer = await this.customerRepository.GetByIdAsync(customerId);
-            if (customer == null || customer.IsDeleted==true)
+            if (customer == null || customer.IsDeleted == true)
             {
                 throw new EntityNotFoundException("Customer does not exist!");
             }
@@ -36,7 +30,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
             return response;
         }
 
-        public async Task<SuccessResponseModel> DeleteOrderItem( int orderId)
+        public async Task<SuccessResponseModel> DeleteOrderItem(int orderId)
         {
             OrderItem deleteOrder = await this.itemRepository.GetByIdAsync(orderId);
             if (deleteOrder == null)
@@ -49,10 +43,10 @@ namespace ECA.Infrastructure.Services.OrderItemService
 
         public async Task<IEnumerable<OrderItemResponseModel>> GetAllOrderItems()
         {
-            
-                var allOrderItems = (await this.itemRepository.GetAsync(x => x.IsDeleted == false)).ToList();
-                var responseModels = allOrderItems.Select(x => OrderItemFactory.Create(x));
-                return responseModels;
+
+            var allOrderItems = (await this.itemRepository.GetAsync(x => x.IsDeleted == false)).ToList();
+            var responseModels = allOrderItems.Select(x => OrderItemFactory.Create(x));
+            return responseModels;
         }
 
         public async Task<OrderItemResponseModel> GetSingleOrderItem(int OrderItemId)
@@ -60,7 +54,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
             var OrderItem = await this.itemRepository.GetByIdAsync(OrderItemId);
             if (OrderItem == null)
             {
-                throw new EntityNotFoundException("User not found");
+                throw new EntityNotFoundException("Order Item not found");
             }
             OrderItemResponseModel response = OrderItemFactory.Create(OrderItem);
             return response;
