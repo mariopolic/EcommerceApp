@@ -10,6 +10,7 @@ namespace ECA.ViewModels.ResponseModel
     {
         public virtual int CustomerId { get; set; }
         public ICollection<OrderItemResponseModel> OrderItems { get; set; }
+        public int TotalOrderPrice { get; set; }
      
     }
 }
