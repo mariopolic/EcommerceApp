@@ -22,6 +22,7 @@ namespace E_commerceApp.Controllers
         public async Task<IActionResult> GetAllOrderItems()
          => Ok(await this.itemService.GetAllOrderItems());
 
+
         [HttpPut("update/{OrderItemId}")]
         public async Task<IActionResult> UpdateOrder(int OrderItemId, [FromBody] OrderItemRequestModel orderRequest)
         {

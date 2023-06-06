@@ -31,7 +31,7 @@ namespace ECA.Infrastructure.Services.ProductService
 
         public async Task<SuccessResponseModel> DeleteProduct(int productId)
         {
-         Product deleteProduct = await this.productRepository.GetByIdAsync(productId);
+            Product deleteProduct = await this.productRepository.GetByIdAsync(productId);
             if (deleteProduct == null)
                 throw new Exception("Customer does not exist!");
            
