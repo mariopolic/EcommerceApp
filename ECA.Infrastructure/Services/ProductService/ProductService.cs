@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using ECA.Core.Exceptions;
 using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
@@ -33,7 +34,7 @@ namespace ECA.Infrastructure.Services.ProductService
         {
             Product deleteProduct = await this.productRepository.GetByIdAsync(productId);
             if (deleteProduct == null)
-                throw new Exception("Customer does not exist!");
+                throw new EntityNotFoundException("Customer does not exist!");
            
             deleteProduct.IsDeleted = true;
             await this.productRepository.UpdateAsync(deleteProduct);
@@ -66,7 +67,7 @@ namespace ECA.Infrastructure.Services.ProductService
             var product = await this.productRepository.GetByIdAsync(productId);
             if (product == null ||product.IsDeleted == true)
             {
-                throw new Exception("Product not found");
+                throw new EntityNotFoundException("Product not found");
             }
             ProductResponseModel response = ProductFactory.Create(product);
             return response;

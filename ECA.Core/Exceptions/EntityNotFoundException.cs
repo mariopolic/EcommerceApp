@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ECA.Core.Exceptions
+﻿namespace ECA.Core.Exceptions
 {
-    public class EntityNotFoundException: Exception
+    public class EntityNotFoundException : Exception
     {
         public EntityNotFoundException() { }
         public EntityNotFoundException(string message) : base(message) { }

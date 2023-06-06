@@ -1,8 +1,5 @@
-﻿using ECA.Core.Models;
-using ECA.Infrastructure.Services.CustomerService;
+﻿using ECA.Infrastructure.Services.CustomerService;
 using ECA.ViewModels.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerceApp.Controllers
@@ -15,30 +12,30 @@ namespace E_commerceApp.Controllers
 
         public CustomerController(ICustomerService customerService)
         {
-          this.customerService = customerService;
+            this.customerService = customerService;
         }
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllCustomers()
-        {   
+        {
             var customers = await customerService.GetAllCustomers();
             return Ok(customers);
         }
         [HttpGet("get/{customerid}")]
         public async Task<IActionResult> GetSingleCustomer(int customerid)
         {
-         var customer = await this.customerService.GetSingleCustomer(customerid);
+            var customer = await this.customerService.GetSingleCustomer(customerid);
             if (customer.FirstName == null)
                 return NotFound("Sorry but this customer does not exist");
             return Ok(customer);
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddCustomer([FromBody]CustomerRequestModel customer)
-            =>Ok(await this.customerService.AddCustomer(customer));
+        public async Task<IActionResult> AddCustomer([FromBody] CustomerRequestModel customer)
+            => Ok(await this.customerService.AddCustomer(customer));
 
         [HttpPut("update/{customerId}")]
-        public async Task<IActionResult> UpdateCustomer(int customerId,[FromBody] CustomerRequestModel customerRequest)
+        public async Task<IActionResult> UpdateCustomer(int customerId, [FromBody] CustomerRequestModel customerRequest)
         {
             return Ok(await this.customerService.UpdateCustomer(customerId, customerRequest));
         }

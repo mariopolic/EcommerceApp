@@ -4,12 +4,6 @@ using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
 using ECA.ViewModels.ResponseModel;
 using ECA.ViewModels.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Services.CustomerService
 {
@@ -18,22 +12,22 @@ namespace ECA.Infrastructure.Services.CustomerService
         private readonly ICustomerRepository CustomerRepository;
         public CustomerService(ICustomerRepository customerRepository)
         {
-         CustomerRepository = customerRepository;
+            CustomerRepository = customerRepository;
         }
         public async Task<CustomerResponseModel> AddCustomer(CustomerRequestModel customer)
         {
-        var newCustomer = CustomerFactory.Create(customer);
-        await this.CustomerRepository.AddAsync(newCustomer);
-        var response = CustomerFactory.Create(newCustomer);
-        return response;
+            var newCustomer = CustomerFactory.Create(customer);
+            await this.CustomerRepository.AddAsync(newCustomer);
+            var response = CustomerFactory.Create(newCustomer);
+            return response;
         }
 
         public async Task<SuccessResponseModel> DeleteCustomer(int customerId)
         {
             Customer updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
             if (updateCustomer == null)
-               throw new EntityNotFoundException("Customer does not exist!");
-               
+                throw new EntityNotFoundException("Customer does not exist!");
+
             updateCustomer.IsDeleted = true;
             await this.CustomerRepository.UpdateAsync(updateCustomer);
             return new SuccessResponseModel() { Success = updateCustomer.IsDeleted };
@@ -41,7 +35,7 @@ namespace ECA.Infrastructure.Services.CustomerService
 
         public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomers()
         {
-            var allCustomers = (await this.CustomerRepository.GetAsync(x=>x.IsDeleted == false)).ToList();
+            var allCustomers = (await this.CustomerRepository.GetAsync(x => x.IsDeleted == false)).ToList();
             var responseModels = allCustomers.Select(x => CustomerFactory.Create(x));
             return responseModels;
         }

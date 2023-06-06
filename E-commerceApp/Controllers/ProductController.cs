@@ -1,9 +1,5 @@
-﻿using ECA.Core.Models;
-using ECA.Infrastructure.Services.CustomerService;
-using ECA.Infrastructure.Services.ProductService;
+﻿using ECA.Infrastructure.Services.ProductService;
 using ECA.ViewModels.RequestModel;
-using ECA.ViewModels.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerceApp.Controllers
@@ -18,10 +14,10 @@ namespace E_commerceApp.Controllers
             _productService = productService;
         }
         [HttpGet("GetAll")]
-        public async  Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts()
         {
-            var products = await  _productService.GetAllProducts();
-            if(products == null)
+            var products = await _productService.GetAllProducts();
+            if (products == null)
             {
                 return NotFound();
             }
@@ -31,7 +27,7 @@ namespace E_commerceApp.Controllers
         public async Task<IActionResult> GetSingleProduct(int productid)
         {
             var product = await _productService.GetSingleProduct(productid);
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -59,7 +55,7 @@ namespace E_commerceApp.Controllers
         }
 
         [HttpDelete("delete/{productId}")]
-        public  async Task<IActionResult> DeleteProduct(int productId)
+        public async Task<IActionResult> DeleteProduct(int productId)
         {
             var result = await this._productService.DeleteProduct(productId);
             if (result == null)

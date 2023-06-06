@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using ECA.Core.Exceptions;
 using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
@@ -27,7 +28,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
             Customer customer = await this.customerRepository.GetByIdAsync(customerId);
             if (customer == null || customer.IsDeleted==true)
             {
-                throw new Exception("Customer does not exist!");
+                throw new EntityNotFoundException("Customer does not exist!");
             }
             var item = OrderItemFactory.Create(orderItemRequest, orderId);
             await this.itemRepository.AddAsync(item);
@@ -59,7 +60,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
             var OrderItem = await this.itemRepository.GetByIdAsync(OrderItemId);
             if (OrderItem == null)
             {
-                throw new Exception("User not found");
+                throw new EntityNotFoundException("User not found");
             }
             OrderItemResponseModel response = OrderItemFactory.Create(OrderItem);
             return response;

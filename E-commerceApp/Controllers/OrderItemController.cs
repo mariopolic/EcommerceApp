@@ -1,6 +1,5 @@
 ﻿using ECA.Infrastructure.Services.OrderItemService;
 using ECA.ViewModels.RequestModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerceApp.Controllers
@@ -9,7 +8,7 @@ namespace E_commerceApp.Controllers
     [ApiController]
     public class OrderItemController : ControllerBase
     {
-        private readonly IOrderItemService itemService; 
+        private readonly IOrderItemService itemService;
         public OrderItemController(IOrderItemService ItemService)
         {
             itemService = ItemService;

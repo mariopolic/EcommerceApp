@@ -64,7 +64,7 @@ namespace ECA.Infrastructure.Services.OrderService
             var order = await this.orderRepository.GetByIdAsync(OrderId);
             if (order == null || order.IsDeleted)
             {
-                throw new Exception("Order not found");
+                throw new EntityNotFoundException("Order not found");
             }
 
             var response = OrderFactory.Create(order);
