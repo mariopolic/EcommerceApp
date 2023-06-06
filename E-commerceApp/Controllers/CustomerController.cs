@@ -28,7 +28,7 @@ namespace E_commerceApp.Controllers
         public async Task<IActionResult> GetSingleCustomer(int customerid)
         {
          var customer = await this.customerService.GetSingleCustomer(customerid);
-            if (customer == null)
+            if (customer.FirstName == null)
                 return NotFound("Sorry but this customer does not exist");
             return Ok(customer);
         }
@@ -46,7 +46,7 @@ namespace E_commerceApp.Controllers
         [HttpDelete("delete/{customerId}")]
         public async Task<IActionResult> DeleteCustomer(int customerId)
         {
-            var result = customerService.DeleteCustomer(customerId);
+            var result = await this.customerService.DeleteCustomer(customerId);
             if (result == null)
                 return NotFound("Sorry but this customer does not exist");
             return Ok(result);

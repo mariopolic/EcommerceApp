@@ -25,7 +25,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
         public async Task<OrderItemResponseModel> AddOrderItem(int customerId, int orderId, OrderItemRequestModel orderItemRequest)
         {
             Customer customer = await this.customerRepository.GetByIdAsync(customerId);
-            if (customer == null)
+            if (customer == null || customer.IsDeleted==true)
             {
                 throw new Exception("Customer does not exist!");
             }

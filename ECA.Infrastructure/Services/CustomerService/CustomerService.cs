@@ -1,4 +1,5 @@
-﻿using ECA.Core.Models;
+﻿using ECA.Core.Exceptions;
+using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
 using ECA.ViewModels.ResponseModel;
@@ -31,9 +32,10 @@ namespace ECA.Infrastructure.Services.CustomerService
         {
             Customer updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
             if (updateCustomer == null)
-               throw new Exception("Customer does not exist!");
+               throw new EntityNotFoundException("Customer does not exist!");
                
             updateCustomer.IsDeleted = true;
+            await this.CustomerRepository.UpdateAsync(updateCustomer);
             return new SuccessResponseModel() { Success = updateCustomer.IsDeleted };
         }
 
@@ -47,10 +49,7 @@ namespace ECA.Infrastructure.Services.CustomerService
         public async Task<CustomerResponseModel> GetSingleCustomer(int customerid)
         {
             var customer = await this.CustomerRepository.GetByIdAsync(customerid);
-            if(customer == null)
-            {
-                throw new Exception("User not found");
-            }
+
             CustomerResponseModel response = CustomerFactory.Create(customer);
             return response;
         }

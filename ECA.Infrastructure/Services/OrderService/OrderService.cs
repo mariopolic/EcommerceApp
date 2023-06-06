@@ -1,4 +1,5 @@
-﻿using ECA.Core.Models;
+﻿using ECA.Core.Exceptions;
+using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
 using ECA.ViewModels.RequestModel;
@@ -37,7 +38,7 @@ namespace ECA.Infrastructure.Services.OrderService
         {
             Order deleteOrder = await this.orderRepository.GetByIdAsync(orderId);
             if (deleteOrder == null)
-                throw new Exception("Order does not exist!");
+                throw new EntityNotFoundException("Order does not exist!");
 
             deleteOrder.IsDeleted = true;
             await this.orderRepository.UpdateAsync(deleteOrder);
