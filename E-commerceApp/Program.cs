@@ -15,7 +15,6 @@ namespace E_commerceApp
         {
             var builder = WebApplication.CreateBuilder(args);
             // injecting repositories
-
             builder.Services.AddDbContext<EcommerceAppContext>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();

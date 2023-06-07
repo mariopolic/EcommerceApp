@@ -2,6 +2,7 @@
 using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
+using ECA.Infrastructure.Services.OrderService;
 using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
 
@@ -11,10 +12,12 @@ namespace ECA.Infrastructure.Services.OrderItemService
     {
         private readonly IOrderItemRepository itemRepository;
         private readonly ICustomerRepository customerRepository;
-        public OrderItemService(IOrderItemRepository ItemRepository, ICustomerRepository CustomerRepository)
+        private readonly IOrderService orderService;
+        public OrderItemService(IOrderItemRepository ItemRepository, ICustomerRepository CustomerRepository, IOrderService OrderService)
         {
             itemRepository = ItemRepository;
             customerRepository = CustomerRepository;
+            orderService = OrderService;
 
         }
         public async Task<OrderItemResponseModel> AddOrderItem(int customerId, int orderId, OrderItemRequestModel orderItemRequest)
@@ -28,6 +31,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
             if(item.Quantity > 0)
             {
                 await this.itemRepository.AddAsync(item);
+                await this.itemRepository.UpdateAsync(item);
             }
             var response = OrderItemFactory.Create(item);
             return response;

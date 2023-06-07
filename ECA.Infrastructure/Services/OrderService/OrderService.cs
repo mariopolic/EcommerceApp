@@ -42,7 +42,7 @@ namespace ECA.Infrastructure.Services.OrderService
 
         public async Task<IEnumerable<OrderResponseModel>> GetAllOrders()
         {
-            var allOrders = (await this.orderRepository.GetAsync(x => x.IsDeleted == false)).ToList();
+            var allOrders = (await this.orderRepository.GetAsync(x => x.IsDeleted == false && x.Customer.IsDeleted == false)).ToList();
             var responseModels = allOrders.Select(x => OrderFactory.Create(x));
             return responseModels;
         }
@@ -73,6 +73,11 @@ namespace ECA.Infrastructure.Services.OrderService
             await this.orderRepository.UpdateAsync(updateOrder);
             var response = OrderFactory.Create(updateOrder);
             return response;
+        }
+        public async void UpdateOrderPrice(int OrderId)
+        {
+            var updateOrder = await this.orderRepository.GetByIdAsync(OrderId);
+            await this.orderRepository.UpdateAsync(updateOrder);
         }
     }
 }
