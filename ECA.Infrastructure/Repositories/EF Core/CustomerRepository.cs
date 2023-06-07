@@ -23,7 +23,7 @@ namespace ECA.Infrastructure.Repositories.EF_Core
 
         public async Task<Customer> GetByIdAsync(int id)
         {
-            return await GetCustomers().FirstOrDefaultAsync(c => c.Id == id);
+            return await GetCustomers().FirstOrDefaultAsync(c => c.Id == id && c.IsDeleted == false);
         }
 
         public async Task<Customer> GetByNameAsync(string name)

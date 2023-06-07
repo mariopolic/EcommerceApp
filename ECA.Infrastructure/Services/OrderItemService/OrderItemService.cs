@@ -25,7 +25,10 @@ namespace ECA.Infrastructure.Services.OrderItemService
                 throw new EntityNotFoundException("Customer does not exist!");
             }
             var item = OrderItemFactory.Create(orderItemRequest, orderId);
-            await this.itemRepository.AddAsync(item);
+            if(item.Quantity > 0)
+            {
+                await this.itemRepository.AddAsync(item);
+            }
             var response = OrderItemFactory.Create(item);
             return response;
         }
