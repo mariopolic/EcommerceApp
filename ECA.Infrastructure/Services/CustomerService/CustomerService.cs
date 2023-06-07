@@ -43,7 +43,10 @@ namespace ECA.Infrastructure.Services.CustomerService
         public async Task<CustomerResponseModel> GetSingleCustomer(int customerid)
         {
             var customer = await this.CustomerRepository.GetByIdAsync(customerid);
-
+            if(customer.IsDeleted == true)
+            {
+                return new CustomerResponseModel();
+            }
             CustomerResponseModel response = CustomerFactory.Create(customer);
             return response;
         }

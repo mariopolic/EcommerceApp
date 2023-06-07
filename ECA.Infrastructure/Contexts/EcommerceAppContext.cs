@@ -3,9 +3,9 @@ using ECA.Core.Models;
 
 namespace ECA.Infrastructure.Contexts
 {
-    public  class EcommerceAppContext:DbContext 
+    public class EcommerceAppContext : DbContext
     {
-   
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -25,6 +25,7 @@ namespace ECA.Infrastructure.Contexts
                 .HasOne(o => o.Customer)
                 .WithMany(c => c.Order)
                 .HasForeignKey(o => o.CustomerId);
+       
 
             modelBuilder.Entity<Customer>().HasData(new Customer
             {

@@ -1,6 +1,8 @@
-﻿using ECA.Infrastructure.Services.OrderItemService;
+﻿using ECA.Core.Models;
+using ECA.Infrastructure.Services.OrderItemService;
 using ECA.Infrastructure.Services.OrderService;
 using ECA.ViewModels.RequestModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerceApp.Controllers
@@ -13,11 +15,11 @@ namespace E_commerceApp.Controllers
         private readonly IOrderItemService orderItemService;
         public OrderController(IOrderService OrderService, IOrderItemService OrderItemService)
         {
-            orderService = OrderService;
-            orderItemService = OrderItemService;
+          orderService = OrderService;
+          orderItemService = OrderItemService;
         }
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllOrders()
+        public  async Task<IActionResult> GetAllOrders()
         {
             return Ok(await this.orderService.GetAllOrders());
         }
@@ -37,13 +39,13 @@ namespace E_commerceApp.Controllers
         }
 
         [HttpPut("update/{OrderId}")]
-        public async Task<IActionResult> UpdateOrder(int OrderId, [FromBody] OrderRequestModel orderRequest)
+        public  async Task<IActionResult> UpdateOrder(int OrderId, [FromBody] OrderRequestModel orderRequest)
         {
-            return Ok(await this.orderService.UpdateOrder(OrderId, orderRequest));
+            return Ok(await this.orderService.UpdateOrder(OrderId,orderRequest));
         }
 
         [HttpDelete("delete/{OrderId}")]
-        public async Task<IActionResult> DeleteOrder(int OrderId)
+        public  async Task<IActionResult> DeleteOrder(int OrderId)
         {
             var result = await this.orderService.DeleteOrder(OrderId);
             if (result == null)

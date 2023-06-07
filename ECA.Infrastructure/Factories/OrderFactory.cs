@@ -23,7 +23,7 @@ namespace ECA.Infrastructure.Factories
             {
                 var newOrders = OrderItemFactory.Create(order.OrderItems);
                 var newCustomer = CustomerFactory.Create(order.Customer);
-                var orderResponseModel = new OrderResponseModel() { CustomerId = order.CustomerId, OrderItems = newOrders, TotalOrderPrice = newOrders.Sum(x => x.Price) };
+                var orderResponseModel = new OrderResponseModel() { CustomerId = order.CustomerId, OrderItems = newOrders, TotalOrderPrice = newOrders.Sum(x => x.Price),Customer = newCustomer };
                 return orderResponseModel;
             }
             return new OrderResponseModel();
