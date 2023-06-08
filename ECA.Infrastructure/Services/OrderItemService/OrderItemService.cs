@@ -31,7 +31,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
             if(item.Quantity > 0)
             {
                 await this.itemRepository.AddAsync(item);
-                await this.itemRepository.UpdateAsync(item);
+                await this.orderService.UpdateOrderPrice(orderId);
             }
             var response = OrderItemFactory.Create(item);
             return response;

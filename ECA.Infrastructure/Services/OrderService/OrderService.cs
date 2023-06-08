@@ -74,10 +74,11 @@ namespace ECA.Infrastructure.Services.OrderService
             var response = OrderFactory.Create(updateOrder);
             return response;
         }
-        public async void UpdateOrderPrice(int OrderId)
+        public async Task<SuccessResponseModel> UpdateOrderPrice(int OrderId)
         {
             var updateOrder = await this.orderRepository.GetByIdAsync(OrderId);
             await this.orderRepository.UpdateAsync(updateOrder);
+            return new SuccessResponseModel() { Success = true };
         }
     }
 }
