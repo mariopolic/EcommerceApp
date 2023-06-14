@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-commerceApp", "E-commerceApp\E-commerceApp.csproj", "{07105726-5607-46ED-A896-20105BDDEF24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECA.WebApi", "E-commerceApp\ECA.WebApi.csproj", "{07105726-5607-46ED-A896-20105BDDEF24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Core", "ECA.Core\ECA.Core.csproj", "{7B762560-8E76-472F-9803-D3864D7B8681}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECA.Core", "ECA.Core\ECA.Core.csproj", "{7B762560-8E76-472F-9803-D3864D7B8681}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.ViewModels", "ECA.ViewModels\ECA.ViewModels.csproj", "{84204598-B2A8-485F-BEB3-DAFA6FF56A14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECA.ViewModels", "ECA.ViewModels\ECA.ViewModels.csproj", "{84204598-B2A8-485F-BEB3-DAFA6FF56A14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECA.Infrastructure", "ECA.Infrastructure\ECA.Infrastructure.csproj", "{5C9240D2-30D2-4CF5-B7B2-0858C2D884B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECA.Infrastructure", "ECA.Infrastructure\ECA.Infrastructure.csproj", "{5C9240D2-30D2-4CF5-B7B2-0858C2D884B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

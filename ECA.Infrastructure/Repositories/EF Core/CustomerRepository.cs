@@ -18,7 +18,7 @@ namespace ECA.Infrastructure.Repositories.EF_Core
         }
         public async Task<Customer> GetByCityAsync(string city)
         {
-            return await GetCustomers().FirstOrDefaultAsync(c=>c.City == city);
+            return await GetCustomers().FirstOrDefaultAsync(c=> c.City == city);
         }
 
         public async Task<Customer> GetByIdAsync(int id)

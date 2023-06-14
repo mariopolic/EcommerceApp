@@ -18,7 +18,7 @@ namespace E_commerceApp.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllCustomers()
         {
-            var customers = await customerService.GetAllCustomers();
+            var customers = await customerService.GetAllCustomersAsync();
             return Ok(customers);
         }
         [HttpGet("get/{customerid}")]

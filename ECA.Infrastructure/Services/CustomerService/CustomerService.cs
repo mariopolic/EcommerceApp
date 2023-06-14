@@ -33,7 +33,7 @@ namespace ECA.Infrastructure.Services.CustomerService
             return new SuccessResponseModel() { Success = updateCustomer.IsDeleted };
         }
 
-        public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomers()
+        public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomersAsync()
         {
             var allCustomers = (await this.CustomerRepository.GetAsync(x => x.IsDeleted == false)).ToList();
             var responseModels = allCustomers.Select(x => CustomerFactory.Create(x));
