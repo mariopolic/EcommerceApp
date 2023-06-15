@@ -5,11 +5,9 @@ namespace ECA.Infrastructure.Contexts
 {
     public class EcommerceAppContext : DbContext
     {
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public EcommerceAppContext(DbContextOptions<EcommerceAppContext> options) : base(options)
         {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=LAPTOP-OABEERU8;Database=EcommerceAppDatabase;Trusted_Connection=True;Encrypt=false;");
+
         }
 
 
@@ -25,7 +23,7 @@ namespace ECA.Infrastructure.Contexts
                 .HasOne(o => o.Customer)
                 .WithMany(c => c.Order)
                 .HasForeignKey(o => o.CustomerId);
-       
+
 
             modelBuilder.Entity<Customer>().HasData(new Customer
             {

@@ -6,6 +6,7 @@ using ECA.Infrastructure.Services.CustomerService;
 using ECA.Infrastructure.Services.OrderItemService;
 using ECA.Infrastructure.Services.OrderService;
 using ECA.Infrastructure.Services.ProductService;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceApp
 {
@@ -15,7 +16,7 @@ namespace E_commerceApp
         {
             var builder = WebApplication.CreateBuilder(args);
             // injecting repositories
-            builder.Services.AddDbContext<EcommerceAppContext>();
+            builder.Services.AddDbContext<EcommerceAppContext>(opt=> opt.UseSqlServer(builder.Configuration.GetConnectionString("EcomDb")));
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
