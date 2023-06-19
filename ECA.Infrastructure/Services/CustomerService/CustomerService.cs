@@ -14,6 +14,7 @@ namespace ECA.Infrastructure.Services.CustomerService
         {
             CustomerRepository = customerRepository;
         }
+
         public async Task<CustomerResponseModel> AddCustomer(CustomerRequestModel customer)
         {
             var newCustomer = CustomerFactory.Create(customer);
@@ -22,41 +23,24 @@ namespace ECA.Infrastructure.Services.CustomerService
             return response;
         }
 
-        public async Task<SuccessResponseModel> DeleteCustomer(int customerId)
+        public Task<SuccessResponseModel> DeleteCustomer(int customerId)
         {
-            Customer updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
-            if (updateCustomer == null)
-                throw new EntityNotFoundException("Customer does not exist!");
-
-            updateCustomer.IsDeleted = true;
-            await this.CustomerRepository.UpdateAsync(updateCustomer);
-            return new SuccessResponseModel() { Success = updateCustomer.IsDeleted };
+            throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomersAsync()
+        public Task<IEnumerable<CustomerResponseModel>> GetAllCustomersAsync()
         {
-            var allCustomers = (await this.CustomerRepository.GetAsync(x => x.IsDeleted == false)).ToList();
-            var responseModels = allCustomers.Select(x => CustomerFactory.Create(x));
-            return responseModels;
+            throw new NotImplementedException();
         }
 
-        public async Task<CustomerResponseModel> GetSingleCustomer(int customerid)
+        public Task<CustomerResponseModel> GetSingleCustomer(int customerid)
         {
-            var customer = await this.CustomerRepository.GetByIdAsync(customerid);
-            CustomerResponseModel response = CustomerFactory.Create(customer);
-            return response;
+            throw new NotImplementedException();
         }
 
-        public async Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request)
+        public Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request)
         {
-            var updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
-            updateCustomer.FirstName = request.FirstName;
-            updateCustomer.LastName = request.LastName;
-            updateCustomer.City = request.City;
-            updateCustomer.Address = request.Address;
-            await this.CustomerRepository.UpdateAsync(updateCustomer);
-            var response = CustomerFactory.Create(updateCustomer);
-            return response;
+            throw new NotImplementedException();
         }
     }
 }

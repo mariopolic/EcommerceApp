@@ -20,62 +20,30 @@ namespace ECA.Infrastructure.Services.OrderItemService
             orderService = OrderService;
 
         }
-        public async Task<OrderItemResponseModel> AddOrderItem(int customerId, int orderId, OrderItemRequestModel orderItemRequest)
+
+        public Task<OrderItemResponseModel> AddOrderItem(int customerId, int orderId, OrderItemRequestModel orderItemRequest)
         {
-            Customer customer = await this.customerRepository.GetByIdAsync(customerId);
-            if (customer == null || customer.IsDeleted == true)
-            {
-                throw new EntityNotFoundException("Customer does not exist!");
-            }
-            var item = OrderItemFactory.Create(orderItemRequest, orderId);
-            if(item.Quantity > 0)
-            {
-                await this.itemRepository.AddAsync(item);
-                await this.orderService.UpdateOrderPrice(orderId);
-            }
-            var response = OrderItemFactory.Create(item);
-            return response;
+            throw new NotImplementedException();
         }
 
-        public async Task<SuccessResponseModel> DeleteOrderItem(int orderId)
+        public Task<SuccessResponseModel> DeleteOrderItem(int orderId)
         {
-            OrderItem deleteOrder = await this.itemRepository.GetByIdAsync(orderId);
-            if (deleteOrder == null)
-                throw new Exception("Order does not exist!");
-
-            deleteOrder.IsDeleted = true;
-            await this.itemRepository.UpdateAsync(deleteOrder);
-            return new SuccessResponseModel() { Success = deleteOrder.IsDeleted };
+            throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<OrderItemResponseModel>> GetAllOrderItems()
+        public Task<IEnumerable<OrderItemResponseModel>> GetAllOrderItems()
         {
-
-            var allOrderItems = (await this.itemRepository.GetAsync(x => x.IsDeleted == false)).ToList();
-            var responseModels = allOrderItems.Select(x => OrderItemFactory.Create(x));
-            return responseModels;
+            throw new NotImplementedException();
         }
 
-        public async Task<OrderItemResponseModel> GetSingleOrderItem(int OrderItemId)
+        public Task<OrderItemResponseModel> GetSingleOrderItem(int OrderId)
         {
-            var OrderItem = await this.itemRepository.GetByIdAsync(OrderItemId);
-            if (OrderItem == null)
-            {
-                throw new EntityNotFoundException("Order Item not found");
-            }
-            OrderItemResponseModel response = OrderItemFactory.Create(OrderItem);
-            return response;
+            throw new NotImplementedException();
         }
 
-        public async Task<OrderItemResponseModel> UpdateOrderItem(int OrderId, OrderItemRequestModel orderRequest)
+        public Task<OrderItemResponseModel> UpdateOrderItem(int OrderId, OrderItemRequestModel orderRequest)
         {
-            var updateOrderItem = await this.itemRepository.GetByIdAsync(OrderId);
-            updateOrderItem.Price = orderRequest.Price;
-            updateOrderItem.Quantity = orderRequest.Quantity;
-            updateOrderItem.ProductId = orderRequest.ProductId;
-            await this.itemRepository.UpdateAsync(updateOrderItem);
-            var response = OrderItemFactory.Create(updateOrderItem);
-            return response;
+            throw new NotImplementedException();
         }
     }
 }
