@@ -23,9 +23,16 @@ namespace ECA.Infrastructure.Services.CustomerService
             return response;
         }
 
-        public Task<SuccessResponseModel> DeleteCustomer(int customerId)
+        public async Task<SuccessResponseModel> DeleteCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            var chosenCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
+            if (chosenCustomer != null)
+            {
+                chosenCustomer.IsDeleted = true;
+                await this.CustomerRepository.UpdateAsync(chosenCustomer);
+                return new SuccessResponseModel() { Success = chosenCustomer.IsDeleted };
+            }
+            return new SuccessResponseModel() { Success = false };
         }
 
         public Task<IEnumerable<CustomerResponseModel>> GetAllCustomersAsync()
