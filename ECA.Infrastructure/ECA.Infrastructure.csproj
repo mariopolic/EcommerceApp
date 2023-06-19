@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ECA.Core\ECA.Core.csproj" />
-    <ProjectReference Include="..\ECA.ViewModels\ECA.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
