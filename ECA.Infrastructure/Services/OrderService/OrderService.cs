@@ -42,7 +42,7 @@ namespace ECA.Infrastructure.Services.OrderService
 
         public async Task<IEnumerable<OrderResponseModel>> GetAllOrders()
         {
-            var allOrders = (await this.orderRepository.GetAsync(x => x.IsDeleted == false && x.Customer.IsDeleted == false)).ToList();
+            var allOrders = (await this.orderRepository.GetAsync(x => x == false && x.Customer.IsDeleted == false)).ToList();
             var responseModels = allOrders.Select(x => OrderFactory.Create(x));
             return responseModels;
         }

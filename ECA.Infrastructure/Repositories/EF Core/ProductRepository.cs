@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Repositories.EF_Core
 {
-    public class ProductRepository : BaseRepository<Product>, IProductRepository
+    public class ProductRepository : BaseRepository, IProductRepository
     {
         private readonly EcommerceAppContext ecommerceAppContext;
         public ProductRepository(EcommerceAppContext ecommerceAppContext) : base(ecommerceAppContext)

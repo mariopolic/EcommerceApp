@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Repositories.EF_Core
 {
-    public class OrderItemRepository : BaseRepository<OrderItem>, IOrderItemRepository
+    public class OrderItemRepository : BaseRepository, IOrderItemRepository
     {
         private readonly EcommerceAppContext ecommerceAppContext;
         public OrderItemRepository(EcommerceAppContext ecommerceAppContext) : base(ecommerceAppContext)
         {
             this.ecommerceAppContext = ecommerceAppContext;
         }
-        public override async Task<IEnumerable<OrderItem>> GetAsync(Expression<Func<OrderItem, bool>> predicate)
+        public  async Task<IEnumerable<OrderItem>> GetAsync(Expression<Func<OrderItem, bool>> predicate)
         {
             return await GetOrderItems().Where(predicate).Include(c => c.Product).ToListAsync();
         }

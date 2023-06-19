@@ -2,7 +2,7 @@
 
 namespace ECA.Infrastructure.Repositories
 {
-    public interface IOrderItemRepository : IRepository<OrderItem>
+    public interface IOrderItemRepository : IRepository
     {
         Task<OrderItem> GetByCustomerAsync(int Customerid);
         Task<OrderItem> GetByIdAsync(int id);
