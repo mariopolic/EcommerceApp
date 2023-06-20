@@ -1,4 +1,5 @@
 ﻿using ECA.Core.Models;
+using System.Linq.Expressions;
 
 namespace ECA.Infrastructure.Repositories
 {
@@ -7,5 +8,6 @@ namespace ECA.Infrastructure.Repositories
         Task<Order> GetByIdAsync(int id);
         Task<Order> GetByCustomerAsync(int Customerid);
         Task<Order> AddAsync(Order Order);
+        Task<IEnumerable<Order>> GetAsync(Expression<Func<Order, bool>> predicate);
     }
 }

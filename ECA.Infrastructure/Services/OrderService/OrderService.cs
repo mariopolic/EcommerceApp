@@ -31,9 +31,11 @@ namespace ECA.Infrastructure.Services.OrderService
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<OrderResponseModel>> GetAllOrders()
+        public async Task<IEnumerable<OrderResponseModel>> GetAllOrders()
         {
-            throw new NotImplementedException();
+            var allOrders = (await this.orderRepository.GetAsync(o => o.IsDeleted == false));
+            var responseModels = allOrders.Select(c => OrderFactory.Create(c));
+            return responseModels;
         }
 
         public Task<IEnumerable<OrderResponseModel>> GetAllOrdersFromCustomer(int customerId)
