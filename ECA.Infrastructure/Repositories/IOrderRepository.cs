@@ -6,5 +6,6 @@ namespace ECA.Infrastructure.Repositories
     {
         Task<Order> GetByIdAsync(int id);
         Task<Order> GetByCustomerAsync(int Customerid);
+        Task<Order> AddAsync(Order Order);
     }
 }

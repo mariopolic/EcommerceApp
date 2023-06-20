@@ -17,9 +17,13 @@ namespace ECA.Infrastructure.Services.OrderService
             customerRepository = CustomerRepository;
         }
 
-        public Task<OrderResponseModel> AddOrder(int customerId)
+        public async Task<OrderResponseModel> AddOrder(int customerId)
         {
-            throw new NotImplementedException();
+            var customer = await this.customerRepository.GetByIdAsync(customerId);
+            var newOrder = OrderFactory.Create(customer.Id);
+            await this.orderRepository.AddAsync(newOrder);
+            var response = OrderFactory.Create(newOrder);
+            return response;
         }
 
         public Task<SuccessResponseModel> DeleteOrder(int customerId)
