@@ -26,7 +26,12 @@ namespace E_commerceApp.Controllers
         [HttpGet("get/{orderId}")]
         public async Task<IActionResult> GetSingleOrder(int orderId)
         {
-            return Ok(await this.orderService.GetSingleOrder(orderId));
+            var singleOrder = await this.orderService.GetSingleOrder(orderId);
+            if(singleOrder == null || singleOrder.Customer == null)
+            {
+                return NotFound("sorry this order does not exist!");
+            }
+            return Ok(singleOrder);
         }
         [HttpPost("add/{customerId}")]
         public async Task<IActionResult> AddOrder(int customerId)

@@ -43,9 +43,15 @@ namespace ECA.Infrastructure.Services.OrderService
             throw new NotImplementedException();
         }
 
-        public Task<OrderResponseModel> GetSingleOrder(int OrderId)
+        public async Task<OrderResponseModel> GetSingleOrder(int OrderId)
         {
-            throw new NotImplementedException();
+            var singleOrder = await this.orderRepository.GetByIdAsync(OrderId);
+            if(singleOrder.IsDeleted != true )
+            {
+                var response = OrderFactory.Create(singleOrder);
+                return response;
+            }
+            return new OrderResponseModel() { };
         }
 
         public Task<OrderResponseModel> UpdateOrder(int OrderId, OrderRequestModel orderRequest)
