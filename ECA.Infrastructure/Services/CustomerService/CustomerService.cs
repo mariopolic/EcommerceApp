@@ -35,19 +35,35 @@ namespace ECA.Infrastructure.Services.CustomerService
             return new SuccessResponseModel() { Success = false };
         }
 
-        public Task<IEnumerable<CustomerResponseModel>> GetAllCustomersAsync()
+        public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomersAsync()
         {
-            throw new NotImplementedException();
+            var allCustomers = await this.CustomerRepository.GetAllAsync();
+            var responseModels = allCustomers.Select(c => CustomerFactory.Create(c));
+            return responseModels;
         }
 
-        public Task<CustomerResponseModel> GetSingleCustomer(int customerid)
+        public async Task<CustomerResponseModel> GetSingleCustomer(int customerid)
         {
-            throw new NotImplementedException();
+            var Customer = await this.CustomerRepository.GetByIdAsync(customerid);
+            var response = CustomerFactory.Create(Customer);
+            return response;
         }
 
-        public Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request)
+        public async Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request)
         {
-            throw new NotImplementedException();
+            
+            var Customer = await this.CustomerRepository.GetByIdAsync(customerId);
+            if(Customer != null)
+            {
+                Customer.FirstName = request.FirstName;
+                Customer.LastName = request.LastName;
+                Customer.Address = request.Address;
+                Customer.City = request.City;
+                await this.CustomerRepository.UpdateAsync(Customer);
+                var response = CustomerFactory.Create(Customer);
+                return response;
+            }
+            return new CustomerResponseModel();
         }
     }
 }
