@@ -26,9 +26,17 @@ namespace ECA.Infrastructure.Services.OrderService
             return response;
         }
 
-        public Task<SuccessResponseModel> DeleteOrder(int customerId)
+        public async Task<SuccessResponseModel> DeleteOrder(int OrderId)
         {
-            throw new NotImplementedException();
+            var chosenOrder = await this.orderRepository.GetByIdAsync(OrderId);
+            if (chosenOrder != null && chosenOrder.IsDeleted == false)
+            {
+                chosenOrder.IsDeleted = true;
+                await this.orderRepository.UpdateAsync(chosenOrder);
+                return new SuccessResponseModel() { Success = chosenOrder.IsDeleted };
+            }
+            return new SuccessResponseModel() {Success = false};
+
         }
 
         public async Task<IEnumerable<OrderResponseModel>> GetAllOrders()
@@ -38,9 +46,11 @@ namespace ECA.Infrastructure.Services.OrderService
             return responseModels;
         }
 
-        public Task<IEnumerable<OrderResponseModel>> GetAllOrdersFromCustomer(int customerId)
+        public async Task<IEnumerable<OrderResponseModel>> GetAllOrdersFromCustomer(int customerId)
         {
-            throw new NotImplementedException();
+            var allOrders = (await this.orderRepository.GetAsync(o => o.IsDeleted == false && o.CustomerId == customerId));
+            var responseModels = allOrders.Select(c => OrderFactory.Create(c)); 
+            return responseModels;
         }
 
         public async Task<OrderResponseModel> GetSingleOrder(int OrderId)
@@ -65,9 +75,6 @@ namespace ECA.Infrastructure.Services.OrderService
             return new OrderResponseModel() { };    
         }
 
-        public Task<SuccessResponseModel> UpdateOrderPrice(int OrderId)
-        {
-            throw new NotImplementedException();
-        }
+     
     }
 }
