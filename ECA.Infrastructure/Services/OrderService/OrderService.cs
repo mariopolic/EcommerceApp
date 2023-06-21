@@ -54,9 +54,15 @@ namespace ECA.Infrastructure.Services.OrderService
             return new OrderResponseModel() { };
         }
 
-        public Task<OrderResponseModel> UpdateOrder(int OrderId, OrderRequestModel orderRequest)
+        public async Task<OrderResponseModel> UpdateOrder(int OrderId, OrderRequestModel orderRequest)
         {
-            throw new NotImplementedException();
+            var singleOrder = await this.orderRepository.GetByIdAsync(OrderId);
+            if (singleOrder.IsDeleted != true )
+            {
+                singleOrder.CustomerId = orderRequest.customerId;
+                await this.orderRepository.UpdateAsync(singleOrder);
+            }
+            return new OrderResponseModel() { };    
         }
 
         public Task<SuccessResponseModel> UpdateOrderPrice(int OrderId)

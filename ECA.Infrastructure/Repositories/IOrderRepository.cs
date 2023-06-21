@@ -9,5 +9,6 @@ namespace ECA.Infrastructure.Repositories
         Task<Order> GetByCustomerAsync(int Customerid);
         Task<Order> AddAsync(Order Order);
         Task<IEnumerable<Order>> GetAsync(Expression<Func<Order, bool>> predicate);
+        public Task<Order> UpdateAsync(Order order);
     }
 }

@@ -46,7 +46,12 @@ namespace E_commerceApp.Controllers
         [HttpPut("update/{OrderId}")]
         public  async Task<IActionResult> UpdateOrder(int OrderId, [FromBody] OrderRequestModel orderRequest)
         {
-            return Ok(await this.orderService.UpdateOrder(OrderId,orderRequest));
+            var order = await this.orderService.UpdateOrder(OrderId, orderRequest);
+            if(order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
         }
 
         [HttpDelete("delete/{OrderId}")]

@@ -24,6 +24,12 @@ namespace ECA.Infrastructure.Repositories.EF_Core
             return Order;
         }
 
+        public async Task<Order> UpdateAsync(Order order)
+        {
+            this.ecommerceAppContext.Orders.Update(order);
+            await this.ecommerceAppContext.SaveChangesAsync();
+            return order;
+        }
         public async Task<IEnumerable<Order>> GetAsync(Expression<Func<Order, bool>> predicate)
         {
             return await GetOrders().Where(predicate).Include(c => c.OrderItems).ThenInclude(x=>x.Product).ToListAsync();
