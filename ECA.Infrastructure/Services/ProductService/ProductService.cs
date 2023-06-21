@@ -18,8 +18,8 @@ namespace ECA.Infrastructure.Services.ProductService
         public async Task<ProductResponseModel> AddProduct(ProductRequestModel productRequest)
         {
             var newProduct = ProductFactory.Create(productRequest);
-            await this.productRepository.AddAsync(productRequest);
-            var response = CustomerFactory.Create(newProduct);
+            await this.productRepository.AddAsync(newProduct);
+            var response = ProductFactory.Create(newProduct);
             return response;
         }
 
