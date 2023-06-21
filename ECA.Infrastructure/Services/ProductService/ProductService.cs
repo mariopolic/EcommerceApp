@@ -15,9 +15,12 @@ namespace ECA.Infrastructure.Services.ProductService
             this.productRepository = productRepository;
         }
 
-        public Task<ProductResponseModel> AddProduct(ProductRequestModel productRequest)
+        public async Task<ProductResponseModel> AddProduct(ProductRequestModel productRequest)
         {
-            throw new NotImplementedException();
+            var newProduct = ProductFactory.Create(productRequest);
+            await this.productRepository.AddAsync(productRequest);
+            var response = CustomerFactory.Create(newProduct);
+            return response;
         }
 
         public Task<SuccessResponseModel> DeleteProduct(int productId)

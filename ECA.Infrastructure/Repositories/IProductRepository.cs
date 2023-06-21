@@ -12,6 +12,6 @@ namespace ECA.Infrastructure.Repositories
         Task<Product> GetByIdAsync(int id);
         Task<Product> GetByNameAsync(string name);
         Task<Product> GetByPriceAsync(int price);
-     
+        Task<Product> AddAsync(Product product);
     }
 }

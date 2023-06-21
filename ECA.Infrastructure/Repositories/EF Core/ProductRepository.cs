@@ -19,7 +19,12 @@ namespace ECA.Infrastructure.Repositories.EF_Core
         {
             return await GetProducts().FirstOrDefaultAsync(c => c.Id == id);
         }
-
+        public async Task<Product> AddAsync(Product product)
+        {
+            this.ecommerceAppContext.Products.Add(product);
+            await this.ecommerceAppContext.SaveChangesAsync();
+            return product;
+        }
         public async Task<Product> GetByNameAsync(string name)
         {
             return await GetProducts().FirstOrDefaultAsync(c => c.ProductName == name);
