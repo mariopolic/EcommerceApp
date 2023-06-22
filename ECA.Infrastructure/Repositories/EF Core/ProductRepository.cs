@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Repositories.EF_Core
 {
-    public class ProductRepository :IProductRepository
+    public class ProductRepository:IProductRepository
     {
         private readonly EcommerceAppContext ecommerceAppContext;
         public ProductRepository(EcommerceAppContext ecommerceAppContext)
