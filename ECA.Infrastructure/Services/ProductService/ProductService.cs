@@ -23,14 +23,23 @@ namespace ECA.Infrastructure.Services.ProductService
             return response;
         }
 
-        public Task<SuccessResponseModel> DeleteProduct(int productId)
+        public async Task<SuccessResponseModel> DeleteProduct(int productId)
         {
-            throw new NotImplementedException();
+            var chosenProduct = await this.productRepository.GetByIdAsync(productId);
+            if (chosenProduct != null && chosenProduct.IsDeleted == false)
+            {
+                chosenProduct.IsDeleted = true;
+                await this.productRepository.UpdateAsync(chosenProduct);
+                return new SuccessResponseModel() { Success = chosenProduct.IsDeleted };
+            }
+            return new SuccessResponseModel() { Success = false };
         }
 
-        public Task<IEnumerable<ProductResponseModel>> GetAllProducts()
+        public async Task<IEnumerable<ProductResponseModel>> GetAllProducts()
         {
-            throw new NotImplementedException();
+            var allProducts = await this.productRepository.GetAsync(x=>x.IsDeleted == false);
+            var responseModels = allProducts.Select(c => ProductFactory.Create(c));
+            return responseModels;
         }
 
         public Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(int minPrice, int maxPrice)
@@ -48,9 +57,17 @@ namespace ECA.Infrastructure.Services.ProductService
             throw new NotImplementedException();
         }
 
-        public Task<ProductResponseModel> UpdateProduct(int productId, ProductRequestModel productRequest)
+        public async Task<ProductResponseModel> UpdateProduct(int productId, ProductRequestModel productRequest)
         {
-            throw new NotImplementedException();
+            var singleProduct = await this.productRepository.GetByIdAsync(productId);
+            if (singleProduct.IsDeleted != true)
+            {
+                singleProduct.ProductPrice = productRequest.ProductPrice;
+                singleProduct.ProductName = productRequest.ProductName;
+                singleProduct.ProductDescription = productRequest.ProductDescription;
+                await this.productRepository.UpdateAsync(singleProduct);
+            }
+            return new ProductResponseModel() { };
         }
     }
 }
