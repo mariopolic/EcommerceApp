@@ -19,10 +19,7 @@ namespace E_commerceApp
             // injecting repositories
             builder.Services.AddDbContext<EcommerceAppContext>(opt=> opt.UseSqlServer(builder.Configuration.GetConnectionString("EcomDb")));
             // Add services to the container.
-            builder.Services.AddScoped<ICustomerService, CustomerService>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IOrderService, OrderService>();
-            builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+            builder.Services.AddServices();
             builder.Services.AddRepositoryServices();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
