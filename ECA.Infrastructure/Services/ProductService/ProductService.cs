@@ -42,9 +42,11 @@ namespace ECA.Infrastructure.Services.ProductService
             return responseModels;
         }
 
-        public Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(int minPrice, int maxPrice)
+        public async Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(int minPrice, int maxPrice)
         {
-            throw new NotImplementedException();
+            var allProducts = await this.productRepository.GetAsync(x => x.ProductPrice >= minPrice && x.ProductPrice <= maxPrice);
+            var responseModels = allProducts.Select(x=>ProductFactory.Create(x));
+            return responseModels;
         }
 
         public Task<IEnumerable<ProductResponseModel>> GetProductByTitle(string title)

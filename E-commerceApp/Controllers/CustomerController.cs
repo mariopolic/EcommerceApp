@@ -16,7 +16,7 @@ namespace E_commerceApp.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllCustomers()
+        public async Task<IActionResult> GetAllCustomers(int pageSize = 1,int pageIndex = 10)
         {
             var customers = await customerService.GetAllCustomersAsync();
             return Ok(customers);
