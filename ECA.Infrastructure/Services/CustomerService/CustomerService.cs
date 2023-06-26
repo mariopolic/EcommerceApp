@@ -49,6 +49,14 @@ namespace ECA.Infrastructure.Services.CustomerService
             return response;
         }
 
+        public async Task<IEnumerable<CustomerResponseModel>> SearchAllCustomersAsync(string filter)
+        {
+            var allCustomers = await this.CustomerRepository.GetAllAsync();
+            var filtered = allCustomers.Where(x=>x.FirstName.Equals(filter));
+            var responseModels = filtered.Select(c => CustomerFactory.Create(c));
+            return responseModels;
+        }
+
         public async Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request)
         {
             

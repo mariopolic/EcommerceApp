@@ -22,6 +22,10 @@ namespace ECA.Infrastructure.Repositories.EF_Core
             return await this.ecommerceAppContext.Customers.FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
         }
 
+        public async Task<IEnumerable<Customer>> GetAsync(Expression<Func<Customer, bool>> predicate)
+        {
+            return await this.ecommerceAppContext.Customers.Where(predicate).ToListAsync();
+        }
         public async Task<IEnumerable<Customer>> GetAllAsync()
         {
             return await this.ecommerceAppContext.Customers.Where(c => !c.IsDeleted).ToListAsync();

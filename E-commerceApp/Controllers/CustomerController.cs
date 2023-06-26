@@ -45,6 +45,17 @@ namespace E_commerceApp.Controllers
             return Ok(updatedCustomer);
         }
 
+        [HttpGet("search/{filter}")]
+        public async Task<IActionResult> SearchCustomer(string filter)
+        {
+            var searched = await this.customerService.SearchAllCustomersAsync(filter);
+            if(searched == null)
+            {
+                return NotFound("Sorry but this customer does not exist");
+            }
+            return Ok(searched);
+        }
+
         [HttpDelete("delete/{customerId}")]
         public async Task<IActionResult> DeleteCustomer(int customerId)
         {
