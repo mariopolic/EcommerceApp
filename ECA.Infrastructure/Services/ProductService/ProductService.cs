@@ -49,9 +49,11 @@ namespace ECA.Infrastructure.Services.ProductService
             return responseModels;
         }
 
-        public Task<IEnumerable<ProductResponseModel>> GetProductByTitle(string title)
+        public async Task<IEnumerable<ProductResponseModel>> GetProductByTitle(string title)
         {
-            throw new NotImplementedException();
+           var allProducts = await this.productRepository.GetAsync(x=>x.ProductName.Equals(title));
+           var responseModels = allProducts.Select(x => ProductFactory.Create(x));
+            return responseModels;  
         }
 
         public Task<ProductResponseModel> GetSingleProduct(int productId)
