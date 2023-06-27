@@ -56,9 +56,11 @@ namespace ECA.Infrastructure.Services.ProductService
             return responseModels;  
         }
 
-        public Task<ProductResponseModel> GetSingleProduct(int productId)
+        public async Task<ProductResponseModel> GetSingleProduct(int productId)
         {
-            throw new NotImplementedException();
+           var singleProduct = await this.productRepository.GetByIdAsync(productId);
+           var responseModel = ProductFactory.Create(singleProduct);
+           return responseModel;
         }
 
         public async Task<ProductResponseModel> UpdateProduct(int productId, ProductRequestModel productRequest)
