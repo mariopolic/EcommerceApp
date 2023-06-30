@@ -1,5 +1,7 @@
 ﻿using ECA.Core.Models;
 using ECA.Infrastructure.Contexts;
+using ECA.ViewModels.RequestModel;
+using ECA.ViewModels.ResponseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,14 @@ namespace ECA.Infrastructure.Repositories.EF_Core
         {
             this.ecommerceAppContext = ecommerceAppContext;
         }
+
+        public async Task<OrderItem> AddAsync(OrderItem OrderItem)
+        {
+            this.ecommerceAppContext.OrderItems.Add(OrderItem);
+            await this.ecommerceAppContext.SaveChangesAsync();
+            return OrderItem;
+        }
+
         public  async Task<IEnumerable<OrderItem>> GetAsync(Expression<Func<OrderItem, bool>> predicate)
         {
             return await GetOrderItems().Where(predicate).Include(c => c.Product).ToListAsync();
@@ -39,6 +49,14 @@ namespace ECA.Infrastructure.Repositories.EF_Core
         {
             return await GetOrderItems().FirstOrDefaultAsync(x => x.ProductId == productid);
         }
+
+        public async Task<OrderItem> UpdateAsync( OrderItem orderItem)
+        {
+           this.ecommerceAppContext.Update(orderItem);
+           this.ecommerceAppContext.SaveChanges();
+            return orderItem;
+        }
+
         private IQueryable<OrderItem> GetOrderItems()
         {
             return this.ecommerceAppContext.OrderItems.Include(x => x.Order).Include(x => x.Product);

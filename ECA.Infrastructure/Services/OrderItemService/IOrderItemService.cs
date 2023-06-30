@@ -1,5 +1,7 @@
-﻿using ECA.ViewModels.RequestModel;
+﻿using ECA.Core.Models;
+using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
+using ECA.ViewModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
