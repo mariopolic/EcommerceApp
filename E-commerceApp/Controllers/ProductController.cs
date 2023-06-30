@@ -8,15 +8,15 @@ namespace E_commerceApp.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductService _productService;
+        private readonly IProductService ProductService;
         public ProductController(IProductService productService)
         {
-            _productService = productService;
+            ProductService = productService;
         }
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllProducts()
         {
-            var products = await _productService.GetAllProducts();
+            var products = await ProductService.GetAllProducts();
             if (products == null)
             {
                 return NotFound();
@@ -26,7 +26,7 @@ namespace E_commerceApp.Controllers
         [HttpGet("get/{productid}")]
         public async Task<IActionResult> GetSingleProduct(int productid)
         {
-            var product = await _productService.GetSingleProduct(productid);
+            var product = await ProductService.GetSingleProduct(productid);
             if (product == null)
             {
                 return NotFound();
@@ -36,28 +36,28 @@ namespace E_commerceApp.Controllers
         [HttpGet("getbytitle/{productTitle}")]
         public async Task<IActionResult> GetProductbyTitle(string productTitle)
         {
-            return Ok(await this._productService.GetProductByTitle(productTitle));
+            return Ok(await this.ProductService.GetProductByTitle(productTitle));
         }
 
         [HttpGet("getbypricerange/From/{minPrice}/To/{maxPrice}")]
         public async Task<IActionResult> GetProductsbyPriceRange(int minPrice, int maxPrice)
         {
-            return Ok(await this._productService.GetProductByPriceRange(minPrice, maxPrice));
+            return Ok(await this.ProductService.GetProductByPriceRange(minPrice, maxPrice));
         }
         [HttpPost("add")]
         public async Task<IActionResult> AddProduct([FromBody] ProductRequestModel productRequest)
-           => Ok(await this._productService.AddProduct(productRequest));
+           => Ok(await this.ProductService.AddProduct(productRequest));
 
         [HttpPut("update/{productId}")]
         public async Task<IActionResult> UpdateProduct(int productId, [FromBody] ProductRequestModel productRequest)
         {
-            return Ok(await this._productService.UpdateProduct(productId, productRequest));
+            return Ok(await this.ProductService.UpdateProduct(productId, productRequest));
         }
 
         [HttpDelete("delete/{productId}")]
         public async Task<IActionResult> DeleteProduct(int productId)
         {
-            var result = await this._productService.DeleteProduct(productId);
+            var result = await this.ProductService.DeleteProduct(productId);
             if (result == null)
                 return NotFound("Sorry but this product does not exist");
             return Ok(result);
