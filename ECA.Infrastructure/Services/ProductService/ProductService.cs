@@ -12,6 +12,7 @@ namespace ECA.Infrastructure.Services.ProductService
         private readonly IProductRepository productRepository;
         public ProductService(IProductRepository productRepository)
         {
+
             this.productRepository = productRepository;
         }
 
