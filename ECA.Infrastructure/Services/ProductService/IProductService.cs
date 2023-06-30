@@ -11,7 +11,7 @@ namespace ECA.Infrastructure.Services.ProductService
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductResponseModel>> GetAllProducts();
+        Task<IEnumerable<ProductResponseModel>> GetAllProducts(int pageSize, int pageNumber);
         Task<ProductResponseModel> GetSingleProduct(int productId );
         Task<ProductResponseModel> AddProduct(ProductRequestModel productRequest);
         Task<ProductResponseModel> UpdateProduct(int productId, ProductRequestModel productRequest);

@@ -13,10 +13,10 @@ namespace E_commerceApp.Controllers
         {
             ProductService = productService;
         }
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllProducts()
+        [HttpGet("GetAll/{pageSize}/{pageNumber}")]
+        public async Task<IActionResult> GetAllProducts(int pageSize, int pageNumber)
         {
-            var products = await ProductService.GetAllProducts();
+            var products = await ProductService.GetAllProducts( pageSize, pageNumber);
             if (products == null)
             {
                 return NotFound();

@@ -35,12 +35,14 @@ namespace ECA.Infrastructure.Services.ProductService
             return new SuccessResponseModel() { Success = false };
         }
 
-        public async Task<IEnumerable<ProductResponseModel>> GetAllProducts()
+        public async Task<IEnumerable<ProductResponseModel>> GetAllProducts(int pageSize, int pageNumber)
         {
-            var allProducts = await this.productRepository.GetAsync(x=>x.IsDeleted == false);
-            var responseModels = allProducts.Select(c => ProductFactory.Create(c));
+            var allProducts = await this.productRepository.GetAsync(x => x.IsDeleted == false);
+            var paginatedProducts = allProducts.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+            var responseModels = paginatedProducts.Select(c => ProductFactory.Create(c));
             return responseModels;
         }
+
 
         public async Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(int minPrice, int maxPrice)
         {
