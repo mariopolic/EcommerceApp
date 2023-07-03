@@ -37,7 +37,23 @@ namespace E_commerceApp.Controllers
         [HttpPut("update/{customerId}")]
         public async Task<IActionResult> UpdateCustomer(int customerId, [FromBody] CustomerRequestModel customerRequest)
         {
-            return Ok(await this.customerService.UpdateCustomer(customerId, customerRequest));
+            var updatedCustomer = await this.customerService.UpdateCustomer(customerId, customerRequest);
+            if(updatedCustomer == null)
+            {
+                return NotFound("Sorry but this customer does not exist");
+            }
+            return Ok(updatedCustomer);
+        }
+
+        [HttpGet("search/{filter}")]
+        public async Task<IActionResult> SearchCustomer(string filter)
+        {
+            var searched = await this.customerService.SearchAllCustomersAsync(filter);
+            if(searched == null)
+            {
+                return NotFound("Sorry but this customer does not exist");
+            }
+            return Ok(searched);
         }
 
         [HttpDelete("delete/{customerId}")]

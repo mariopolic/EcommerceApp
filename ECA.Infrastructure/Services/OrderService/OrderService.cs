@@ -16,69 +16,65 @@ namespace ECA.Infrastructure.Services.OrderService
             orderRepository = OrderRepository;
             customerRepository = CustomerRepository;
         }
+
         public async Task<OrderResponseModel> AddOrder(int customerId)
         {
-            Customer customer = await this.customerRepository.GetByIdAsync(customerId);
-            if (customer == null)
-            {
-                throw new Exception("Customer does not exist!");
-            }
-            Order newOrder = OrderFactory.Create(customerId);
+            var customer = await this.customerRepository.GetByIdAsync(customerId);
+            var newOrder = OrderFactory.Create(customer.Id);
             await this.orderRepository.AddAsync(newOrder);
             var response = OrderFactory.Create(newOrder);
             return response;
         }
 
-        public async Task<SuccessResponseModel> DeleteOrder(int orderId)
+        public async Task<SuccessResponseModel> DeleteOrder(int OrderId)
         {
-            Order deleteOrder = await this.orderRepository.GetByIdAsync(orderId);
-            if (deleteOrder == null)
-                throw new EntityNotFoundException("Order does not exist!");
+            var chosenOrder = await this.orderRepository.GetByIdAsync(OrderId);
+            if (chosenOrder != null && chosenOrder.IsDeleted == false)
+            {
+                chosenOrder.IsDeleted = true;
+                await this.orderRepository.UpdateAsync(chosenOrder);
+                return new SuccessResponseModel() { Success = chosenOrder.IsDeleted };
+            }
+            return new SuccessResponseModel() {Success = false};
 
-            deleteOrder.IsDeleted = true;
-            await this.orderRepository.UpdateAsync(deleteOrder);
-            return new SuccessResponseModel() { Success = deleteOrder.IsDeleted };
         }
 
         public async Task<IEnumerable<OrderResponseModel>> GetAllOrders()
         {
-            var allOrders = (await this.orderRepository.GetAsync(x => x.IsDeleted == false && x.Customer.IsDeleted == false)).ToList();
-            var responseModels = allOrders.Select(x => OrderFactory.Create(x));
+            var allOrders = (await this.orderRepository.GetAsync(o => o.IsDeleted == false));
+            var responseModels = allOrders.Select(c => OrderFactory.Create(c));
             return responseModels;
         }
 
         public async Task<IEnumerable<OrderResponseModel>> GetAllOrdersFromCustomer(int customerId)
         {
-            var allOrders = (await this.orderRepository.GetAsync(x => x.IsDeleted == false && x.CustomerId == customerId)).ToList();
-            var responseModels = allOrders.Select(x => OrderFactory.Create(x));
+            var allOrders = (await this.orderRepository.GetAsync(o => o.IsDeleted == false && o.CustomerId == customerId));
+            var responseModels = allOrders.Select(c => OrderFactory.Create(c)); 
             return responseModels;
         }
 
         public async Task<OrderResponseModel> GetSingleOrder(int OrderId)
         {
-            var order = await this.orderRepository.GetByIdAsync(OrderId);
-            if (order == null || order.IsDeleted)
+            var singleOrder = await this.orderRepository.GetByIdAsync(OrderId);
+            if(singleOrder.IsDeleted != true )
             {
-                throw new EntityNotFoundException("Order not found");
+                var response = OrderFactory.Create(singleOrder);
+                return response;
             }
-
-            var response = OrderFactory.Create(order);
-            return response;
+            return new OrderResponseModel() { };
         }
 
         public async Task<OrderResponseModel> UpdateOrder(int OrderId, OrderRequestModel orderRequest)
         {
-            var updateOrder = await this.orderRepository.GetByIdAsync(OrderId);
-            updateOrder.CustomerId = orderRequest.customerId;
-            await this.orderRepository.UpdateAsync(updateOrder);
-            var response = OrderFactory.Create(updateOrder);
-            return response;
+            var singleOrder = await this.orderRepository.GetByIdAsync(OrderId);
+            if (singleOrder.IsDeleted != true )
+            {
+                singleOrder.CustomerId = orderRequest.customerId;
+                await this.orderRepository.UpdateAsync(singleOrder);
+            }
+            return new OrderResponseModel() { };    
         }
-        public async Task<SuccessResponseModel> UpdateOrderPrice(int OrderId)
-        {
-            var updateOrder = await this.orderRepository.GetByIdAsync(OrderId);
-            await this.orderRepository.UpdateAsync(updateOrder);
-            return new SuccessResponseModel() { Success = true };
-        }
+
+     
     }
 }

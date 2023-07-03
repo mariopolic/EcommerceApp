@@ -13,6 +13,7 @@ namespace ECA.Infrastructure.Services.CustomerService
     public interface ICustomerService
     {
         Task<IEnumerable<CustomerResponseModel>> GetAllCustomersAsync();
+        Task<IEnumerable<CustomerResponseModel>> SearchAllCustomersAsync(string filter);
         Task<CustomerResponseModel> GetSingleCustomer(int customerid);
         Task<CustomerResponseModel> AddCustomer(CustomerRequestModel customer);
         Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request);

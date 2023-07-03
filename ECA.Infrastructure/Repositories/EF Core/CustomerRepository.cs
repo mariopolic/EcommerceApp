@@ -9,35 +9,51 @@ using System.Threading.Tasks;
 
 namespace ECA.Infrastructure.Repositories.EF_Core
 {
-    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly EcommerceAppContext ecommerceAppContext;
-        public CustomerRepository(EcommerceAppContext ecommerceAppContext):base(ecommerceAppContext)
+
+        public CustomerRepository(EcommerceAppContext ecommerceAppContext)
         {
             this.ecommerceAppContext = ecommerceAppContext;
         }
-        public async Task<Customer> GetByCityAsync(string city)
-        {
-            return await GetCustomers().FirstOrDefaultAsync(c=> c.City == city);
-        }
-
         public async Task<Customer> GetByIdAsync(int id)
         {
-            return await GetCustomers().FirstOrDefaultAsync(c => c.Id == id && c.IsDeleted == false);
+            return await this.ecommerceAppContext.Customers.FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
         }
 
-        public async Task<Customer> GetByNameAsync(string name)
+        public async Task<IEnumerable<Customer>> GetAsync(Expression<Func<Customer, bool>> predicate)
         {
-            return await GetCustomers().FirstOrDefaultAsync(c => c.FirstName == name);
+            return await this.ecommerceAppContext.Customers.Where(predicate).ToListAsync();
+        }
+        public async Task<IEnumerable<Customer>> GetAllAsync()
+        {
+            return await this.ecommerceAppContext.Customers.Where(c => !c.IsDeleted).ToListAsync();
         }
 
-        public override async Task<IEnumerable<Customer>> GetAsync(Expression<Func<Customer, bool>> predicate)
+        public async Task<Customer> AddAsync(Customer customer)
         {
-            return await GetCustomers().Where(predicate).ToListAsync();
+            this.ecommerceAppContext.Customers.Add(customer);
+            await this.ecommerceAppContext.SaveChangesAsync();
+            return customer;
         }
-        private IQueryable<Customer> GetCustomers()
+
+        public async Task<Customer> UpdateAsync(Customer customer)
         {
-            return this.ecommerceAppContext.Customers;
+            this.ecommerceAppContext.Customers.Update(customer);
+            await this.ecommerceAppContext.SaveChangesAsync();
+            return customer;
+        }
+
+        public async Task DeleteAsync(Customer customer)
+        {
+            this.ecommerceAppContext.Customers.Remove(customer);
+            await this.ecommerceAppContext.SaveChangesAsync();
         }
     }
 }
+
+
+   
+   
+

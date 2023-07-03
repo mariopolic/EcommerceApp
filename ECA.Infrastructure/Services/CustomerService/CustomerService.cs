@@ -14,6 +14,7 @@ namespace ECA.Infrastructure.Services.CustomerService
         {
             CustomerRepository = customerRepository;
         }
+
         public async Task<CustomerResponseModel> AddCustomer(CustomerRequestModel customer)
         {
             var newCustomer = CustomerFactory.Create(customer);
@@ -24,39 +25,53 @@ namespace ECA.Infrastructure.Services.CustomerService
 
         public async Task<SuccessResponseModel> DeleteCustomer(int customerId)
         {
-            Customer updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
-            if (updateCustomer == null)
-                throw new EntityNotFoundException("Customer does not exist!");
-
-            updateCustomer.IsDeleted = true;
-            await this.CustomerRepository.UpdateAsync(updateCustomer);
-            return new SuccessResponseModel() { Success = updateCustomer.IsDeleted };
+            var chosenCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
+            if (chosenCustomer != null)
+            {
+                chosenCustomer.IsDeleted = true;
+                await this.CustomerRepository.UpdateAsync(chosenCustomer);
+                return new SuccessResponseModel() { Success = chosenCustomer.IsDeleted };
+            }
+            return new SuccessResponseModel() { Success = false };
         }
 
         public async Task<IEnumerable<CustomerResponseModel>> GetAllCustomersAsync()
         {
-            var allCustomers = (await this.CustomerRepository.GetAsync(x => x.IsDeleted == false)).ToList();
-            var responseModels = allCustomers.Select(x => CustomerFactory.Create(x));
+            var allCustomers = await this.CustomerRepository.GetAllAsync();
+            var responseModels = allCustomers.Select(c => CustomerFactory.Create(c));
             return responseModels;
         }
 
         public async Task<CustomerResponseModel> GetSingleCustomer(int customerid)
         {
-            var customer = await this.CustomerRepository.GetByIdAsync(customerid);
-            CustomerResponseModel response = CustomerFactory.Create(customer);
+            var Customer = await this.CustomerRepository.GetByIdAsync(customerid);
+            var response = CustomerFactory.Create(Customer);
             return response;
+        }
+
+        public async Task<IEnumerable<CustomerResponseModel>> SearchAllCustomersAsync(string filter)
+        {
+            var allCustomers = await this.CustomerRepository.GetAllAsync();
+            var filtered = allCustomers.Where(x=>x.FirstName.Equals(filter));
+            var responseModels = filtered.Select(c => CustomerFactory.Create(c));
+            return responseModels;
         }
 
         public async Task<CustomerResponseModel> UpdateCustomer(int customerId, CustomerRequestModel request)
         {
-            var updateCustomer = await this.CustomerRepository.GetByIdAsync(customerId);
-            updateCustomer.FirstName = request.FirstName;
-            updateCustomer.LastName = request.LastName;
-            updateCustomer.City = request.City;
-            updateCustomer.Address = request.Address;
-            await this.CustomerRepository.UpdateAsync(updateCustomer);
-            var response = CustomerFactory.Create(updateCustomer);
-            return response;
+            
+            var Customer = await this.CustomerRepository.GetByIdAsync(customerId);
+            if(Customer != null)
+            {
+                Customer.FirstName = request.FirstName;
+                Customer.LastName = request.LastName;
+                Customer.Address = request.Address;
+                Customer.City = request.City;
+                await this.CustomerRepository.UpdateAsync(Customer);
+                var response = CustomerFactory.Create(Customer);
+                return response;
+            }
+            return new CustomerResponseModel();
         }
     }
 }

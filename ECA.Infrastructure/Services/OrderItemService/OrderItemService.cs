@@ -20,6 +20,7 @@ namespace ECA.Infrastructure.Services.OrderItemService
             orderService = OrderService;
 
         }
+
         public async Task<OrderItemResponseModel> AddOrderItem(int customerId, int orderId, OrderItemRequestModel orderItemRequest)
         {
             Customer customer = await this.customerRepository.GetByIdAsync(customerId);
@@ -28,10 +29,9 @@ namespace ECA.Infrastructure.Services.OrderItemService
                 throw new EntityNotFoundException("Customer does not exist!");
             }
             var item = OrderItemFactory.Create(orderItemRequest, orderId);
-            if(item.Quantity > 0)
+            if (item.Quantity > 0)
             {
                 await this.itemRepository.AddAsync(item);
-                await this.orderService.UpdateOrderPrice(orderId);
             }
             var response = OrderItemFactory.Create(item);
             return response;
@@ -50,15 +50,14 @@ namespace ECA.Infrastructure.Services.OrderItemService
 
         public async Task<IEnumerable<OrderItemResponseModel>> GetAllOrderItems()
         {
-
             var allOrderItems = (await this.itemRepository.GetAsync(x => x.IsDeleted == false)).ToList();
             var responseModels = allOrderItems.Select(x => OrderItemFactory.Create(x));
             return responseModels;
         }
 
-        public async Task<OrderItemResponseModel> GetSingleOrderItem(int OrderItemId)
+        public async Task<OrderItemResponseModel> GetSingleOrderItem(int OrderId)
         {
-            var OrderItem = await this.itemRepository.GetByIdAsync(OrderItemId);
+            var OrderItem = await this.itemRepository.GetByIdAsync(OrderId);
             if (OrderItem == null)
             {
                 throw new EntityNotFoundException("Order Item not found");
