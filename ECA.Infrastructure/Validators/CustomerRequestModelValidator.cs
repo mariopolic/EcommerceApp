@@ -12,7 +12,7 @@ namespace ECA.Infrastructure.Validators
     {
         public CustomerRequestModelValidator()
         {
-            RuleFor(x=>x.FirstName).NotEmpty().WithMessage("Name is required")
+            RuleFor(x => x.FirstName).NotEmpty().WithMessage("Name is required");
         }
     }
 }

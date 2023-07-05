@@ -1,5 +1,7 @@
-﻿using ECA.Infrastructure.Services.CustomerService;
+﻿using ECA.Infrastructure.Factories;
+using ECA.Infrastructure.Services.CustomerService;
 using ECA.ViewModels.ViewModels;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerceApp.Controllers
@@ -9,10 +11,12 @@ namespace E_commerceApp.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService customerService;
+        private readonly IValidator<CustomerRequestModel> Validator;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService,IValidator<CustomerRequestModel> validator)
         {
             this.customerService = customerService;
+            Validator = validator;
         }
 
         [HttpGet("GetAll")]
@@ -32,7 +36,15 @@ namespace E_commerceApp.Controllers
 
         [HttpPost("add")]
         public async Task<IActionResult> AddCustomer([FromBody] CustomerRequestModel customer)
-            => Ok(await this.customerService.AddCustomer(customer));
+        {
+            var result = Validator.Validate(customer);
+            if(!result.IsValid)
+            {
+                return BadRequest(result);
+            }
+           var newCustomer = await this.customerService.AddCustomer(customer);
+           return Ok(newCustomer);
+        }
 
         [HttpPut("update/{customerId}")]
         public async Task<IActionResult> UpdateCustomer(int customerId, [FromBody] CustomerRequestModel customerRequest)

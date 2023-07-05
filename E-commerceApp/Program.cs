@@ -21,6 +21,7 @@ namespace E_commerceApp
             // Add services to the container.
             builder.Services.AddServices();
             builder.Services.AddRepositoryServices();
+            builder.Services.AddValidators();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
