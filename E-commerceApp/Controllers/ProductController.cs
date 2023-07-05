@@ -1,4 +1,5 @@
 ﻿using ECA.Infrastructure.Factories;
+using ECA.Infrastructure.RequestModel;
 using ECA.Infrastructure.Services.ProductService;
 using ECA.ViewModels.RequestModel;
 using FluentValidation;
@@ -12,10 +13,12 @@ namespace E_commerceApp.Controllers
     {
         private readonly IProductService ProductService;
         private readonly IValidator<ProductRequestModel> Validator;
-        public ProductController(IProductService productService, IValidator<ProductRequestModel> validator)
+        private readonly IValidator<ProductPriceRangeRequestModel> PriceValidator;
+        public ProductController(IProductService productService, IValidator<ProductRequestModel> validator, IValidator<ProductPriceRangeRequestModel> priceValidator)
         {
             ProductService = productService;
             Validator = validator;
+            PriceValidator = priceValidator;
         }
         [HttpGet("GetAll/{pageSize}/{pageNumber}")]
         public async Task<IActionResult> GetAllProducts(int pageSize, int pageNumber)
@@ -43,10 +46,15 @@ namespace E_commerceApp.Controllers
             return Ok(await this.ProductService.GetProductByTitle(productTitle));
         }
 
-        [HttpGet("getbypricerange/From/{minPrice}/To/{maxPrice}")]
-        public async Task<IActionResult> GetProductsbyPriceRange(int minPrice, int maxPrice)
+        [HttpGet("getbypricerange")]
+        public async Task<IActionResult> GetProductsbyPriceRange([FromQuery] ProductPriceRangeRequestModel productPriceRangeRequest)
         {
-            return Ok(await this.ProductService.GetProductByPriceRange(minPrice, maxPrice));
+            var result = PriceValidator.Validate(productPriceRangeRequest);
+            if (!result.IsValid)
+            {
+                return BadRequest(result);
+            }
+            return Ok(await this.ProductService.GetProductByPriceRange(productPriceRangeRequest));
         }
         [HttpPost("add")]
         public async Task<IActionResult> AddProduct([FromBody] ProductRequestModel productRequest)

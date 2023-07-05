@@ -1,5 +1,6 @@
 ﻿using ECA.Infrastructure.Repositories;
 using ECA.Infrastructure.Repositories.EF_Core;
+using ECA.Infrastructure.RequestModel;
 using ECA.Infrastructure.Services.CustomerService;
 using ECA.Infrastructure.Services.OrderItemService;
 using ECA.Infrastructure.Services.OrderService;
@@ -36,6 +37,7 @@ namespace ECA.Infrastructure.extensions
             services.AddTransient<IValidator<CustomerRequestModel>, CustomerRequestModelValidator>();
             services.AddTransient<IValidator<OrderRequestModel>, OrderRequestModelValidator>();
             services.AddTransient<IValidator<ProductRequestModel>, ProductRequestModelValidator>();
+            services.AddTransient<IValidator<ProductPriceRangeRequestModel>, ProductPriceRangeValidator>();
             return services;
         }
     }

@@ -1,4 +1,5 @@
-﻿using ECA.ViewModels.RequestModel;
+﻿using ECA.Infrastructure.RequestModel;
+using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
 using ECA.ViewModels.ViewModels;
 using System;
@@ -16,7 +17,7 @@ namespace ECA.Infrastructure.Services.ProductService
         Task<ProductResponseModel> AddProduct(ProductRequestModel productRequest);
         Task<ProductResponseModel> UpdateProduct(int productId, ProductRequestModel productRequest);
         Task<IEnumerable<ProductResponseModel>> GetProductByTitle(string title);
-        Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(int minPrice,int maxPrice);
+        Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(ProductPriceRangeRequestModel productPriceRangeRequest);
         Task<SuccessResponseModel> DeleteProduct(int productId);
     }
 }

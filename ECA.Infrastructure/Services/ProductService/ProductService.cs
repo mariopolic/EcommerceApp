@@ -2,6 +2,7 @@
 using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
+using ECA.Infrastructure.RequestModel;
 using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ResponseModel;
 
@@ -45,9 +46,9 @@ namespace ECA.Infrastructure.Services.ProductService
         }
 
 
-        public async Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(int minPrice, int maxPrice)
+        public async Task<IEnumerable<ProductResponseModel>> GetProductByPriceRange(ProductPriceRangeRequestModel productPriceRangeRequest)
         {
-            var allProducts = await this.productRepository.GetAsync(x => x.ProductPrice >= minPrice && x.ProductPrice <= maxPrice);
+            var allProducts = await this.productRepository.GetAsync(x => x.ProductPrice >= productPriceRangeRequest.MinPrice && x.ProductPrice <= productPriceRangeRequest.MaxPrice);
             var responseModels = allProducts.Select(x=>ProductFactory.Create(x));
             return responseModels;
         }
