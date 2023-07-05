@@ -69,7 +69,7 @@ namespace ECA.Infrastructure.Services.ProductService
         public async Task<ProductResponseModel> UpdateProduct(int productId, ProductRequestModel productRequest)
         {
             var singleProduct = await this.productRepository.GetByIdAsync(productId);
-            if (singleProduct.IsDeleted != true)
+            if (singleProduct != null && singleProduct.IsDeleted != true)
             {
                 singleProduct.ProductPrice = productRequest.ProductPrice;
                 singleProduct.ProductName = productRequest.ProductName;

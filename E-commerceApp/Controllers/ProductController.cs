@@ -63,6 +63,11 @@ namespace E_commerceApp.Controllers
         [HttpPut("update/{productId}")]
         public async Task<IActionResult> UpdateProduct(int productId, [FromBody] ProductRequestModel productRequest)
         {
+            var result = Validator.Validate(productRequest);
+            if(!result.IsValid)
+            {
+                return BadRequest(result);
+            }
             return Ok(await this.ProductService.UpdateProduct(productId, productRequest));
         }
 
