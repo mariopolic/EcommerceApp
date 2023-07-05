@@ -20,10 +20,14 @@ namespace ECA.Infrastructure.Services.OrderService
         public async Task<OrderResponseModel> AddOrder(int customerId)
         {
             var customer = await this.customerRepository.GetByIdAsync(customerId);
-            var newOrder = OrderFactory.Create(customer.Id);
-            await this.orderRepository.AddAsync(newOrder);
-            var response = OrderFactory.Create(newOrder);
-            return response;
+            if(customer != null)
+            {
+                var newOrder = OrderFactory.Create(customer.Id);
+                await this.orderRepository.AddAsync(newOrder);
+                var response = OrderFactory.Create(newOrder);
+                return response;
+            }
+                return new OrderResponseModel();
         }
 
         public async Task<SuccessResponseModel> DeleteOrder(int OrderId)

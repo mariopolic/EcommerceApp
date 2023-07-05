@@ -5,6 +5,7 @@ using ECA.Infrastructure.Services.OrderItemService;
 using ECA.Infrastructure.Services.OrderService;
 using ECA.Infrastructure.Services.ProductService;
 using ECA.Infrastructure.Validators;
+using ECA.ViewModels.RequestModel;
 using ECA.ViewModels.ViewModels;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,7 @@ namespace ECA.Infrastructure.extensions
         public static IServiceCollection AddValidators(this IServiceCollection services)
         {
             services.AddTransient<IValidator<CustomerRequestModel>, CustomerRequestModelValidator>();
+            services.AddTransient<IValidator<OrderRequestModel>, OrderRequestModelValidator>();
             return services;
         }
     }
