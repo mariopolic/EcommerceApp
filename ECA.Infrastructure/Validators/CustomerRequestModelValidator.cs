@@ -13,6 +13,8 @@ namespace ECA.Infrastructure.Validators
         public CustomerRequestModelValidator()
         {
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("Name is required");
+            RuleFor(x => x.FirstName).NotEqual("string").WithMessage("FirstName can not be equal to string");
+            RuleFor(x => x.LastName).NotEmpty().WithMessage("LastName is required");
         }
     }
 }
