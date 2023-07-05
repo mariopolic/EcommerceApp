@@ -35,6 +35,7 @@ namespace ECA.Infrastructure.extensions
         {
             services.AddTransient<IValidator<CustomerRequestModel>, CustomerRequestModelValidator>();
             services.AddTransient<IValidator<OrderRequestModel>, OrderRequestModelValidator>();
+            services.AddTransient<IValidator<ProductRequestModel>, ProductRequestModelValidator>();
             return services;
         }
     }

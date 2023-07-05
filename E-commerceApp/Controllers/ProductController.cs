@@ -1,5 +1,7 @@
-﻿using ECA.Infrastructure.Services.ProductService;
+﻿using ECA.Infrastructure.Factories;
+using ECA.Infrastructure.Services.ProductService;
 using ECA.ViewModels.RequestModel;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerceApp.Controllers
@@ -9,14 +11,16 @@ namespace E_commerceApp.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService ProductService;
-        public ProductController(IProductService productService)
+        private readonly IValidator<ProductRequestModel> Validator;
+        public ProductController(IProductService productService, IValidator<ProductRequestModel> validator)
         {
             ProductService = productService;
+            Validator = validator;
         }
         [HttpGet("GetAll/{pageSize}/{pageNumber}")]
         public async Task<IActionResult> GetAllProducts(int pageSize, int pageNumber)
         {
-            var products = await ProductService.GetAllProducts( pageSize, pageNumber);
+            var products = await ProductService.GetAllProducts(pageSize, pageNumber);
             if (products == null)
             {
                 return NotFound();
@@ -46,7 +50,15 @@ namespace E_commerceApp.Controllers
         }
         [HttpPost("add")]
         public async Task<IActionResult> AddProduct([FromBody] ProductRequestModel productRequest)
-           => Ok(await this.ProductService.AddProduct(productRequest));
+        {
+            var result = Validator.Validate(productRequest);
+            if (!result.IsValid)
+            {
+                return BadRequest(result);
+            }
+            var newProduct = await this.ProductService.AddProduct(productRequest);
+            return Ok(newProduct);
+        }
 
         [HttpPut("update/{productId}")]
         public async Task<IActionResult> UpdateProduct(int productId, [FromBody] ProductRequestModel productRequest)
