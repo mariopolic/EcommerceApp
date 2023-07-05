@@ -10,6 +10,9 @@ namespace ECA.Infrastructure.Validators
 {
     public class CustomerRequestModelValidator:AbstractValidator<CustomerRequestModel>
     {
-
+        public CustomerRequestModelValidator()
+        {
+            RuleFor(x=>x.FirstName).NotEmpty().WithMessage("Name is required")
+        }
     }
 }
