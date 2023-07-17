@@ -1,4 +1,5 @@
-﻿using ECA.Infrastructure.Repositories;
+﻿using ECA.Infrastructure.AutoMapper;
+using ECA.Infrastructure.Repositories;
 using ECA.Infrastructure.Repositories.EF_Core;
 using ECA.Infrastructure.RequestModel;
 using ECA.Infrastructure.Services.CustomerService;
@@ -21,6 +22,7 @@ namespace ECA.Infrastructure.extensions
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddAutoMapper(typeof(ProductMappingProfile));
             return services;
         }
 
