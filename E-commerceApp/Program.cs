@@ -8,6 +8,7 @@ using ECA.Infrastructure.Services.OrderService;
 using ECA.Infrastructure.Services.ProductService;
 using Microsoft.EntityFrameworkCore;
 using ECA.Infrastructure.extensions;
+using AutoMapper;
 
 namespace E_commerceApp
 {
@@ -26,6 +27,7 @@ namespace E_commerceApp
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+ 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

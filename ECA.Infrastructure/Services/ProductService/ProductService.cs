@@ -1,4 +1,5 @@
-﻿using ECA.Core.Exceptions;
+﻿using AutoMapper;
+using ECA.Core.Exceptions;
 using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
@@ -11,10 +12,12 @@ namespace ECA.Infrastructure.Services.ProductService
     public class ProductService : IProductService
     {
         private readonly IProductRepository productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IMapper mapper;
+        public ProductService(IProductRepository productRepository,IMapper mapper)
         {
 
             this.productRepository = productRepository;
+            this.mapper = mapper;
         }
 
         public async Task<ProductResponseModel> AddProduct(ProductRequestModel productRequest)
@@ -72,10 +75,10 @@ namespace ECA.Infrastructure.Services.ProductService
             var singleProduct = await this.productRepository.GetByIdAsync(productId);
             if (singleProduct != null && singleProduct.IsDeleted != true)
             {
-                singleProduct.ProductPrice = productRequest.ProductPrice;
-                singleProduct.ProductName = productRequest.ProductName;
-                singleProduct.ProductDescription = productRequest.ProductDescription;
+                mapper.Map(productRequest, singleProduct);
                 await this.productRepository.UpdateAsync(singleProduct);
+                var response = ProductFactory.Create(singleProduct); 
+                return response;
             }
             return new ProductResponseModel() { };
         }
