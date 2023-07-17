@@ -1,4 +1,5 @@
-﻿using ECA.Core.Exceptions;
+﻿using AutoMapper;
+using ECA.Core.Exceptions;
 using ECA.Core.Models;
 using ECA.Infrastructure.Factories;
 using ECA.Infrastructure.Repositories;
@@ -10,9 +11,11 @@ namespace ECA.Infrastructure.Services.CustomerService
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository CustomerRepository;
-        public CustomerService(ICustomerRepository customerRepository)
+        private readonly IMapper mapper;
+        public CustomerService(ICustomerRepository customerRepository,IMapper Mapper)
         {
             CustomerRepository = customerRepository;
+            mapper = Mapper;    
         }
 
         public async Task<CustomerResponseModel> AddCustomer(CustomerRequestModel customer)
@@ -63,10 +66,7 @@ namespace ECA.Infrastructure.Services.CustomerService
             var Customer = await this.CustomerRepository.GetByIdAsync(customerId);
             if(Customer != null)
             {
-                Customer.FirstName = request.FirstName;
-                Customer.LastName = request.LastName;
-                Customer.Address = request.Address;
-                Customer.City = request.City;
+                mapper.Map(request,Customer);
                 await this.CustomerRepository.UpdateAsync(Customer);
                 var response = CustomerFactory.Create(Customer);
                 return response;

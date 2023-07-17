@@ -50,12 +50,12 @@ namespace E_commerceApp.Controllers
         [HttpPut("update/{customerId}")]
         public async Task<IActionResult> UpdateCustomer(int customerId, [FromBody] CustomerRequestModel customerRequest)
         {
-            var updatedCustomer = await this.customerService.UpdateCustomer(customerId, customerRequest);
-            if(updatedCustomer == null)
+           var result = Validator.Validate(customerRequest);
+            if (!result.IsValid)
             {
-                return NotFound("Sorry but this customer does not exist");
+               return BadRequest(result); 
             }
-            return Ok(updatedCustomer);
+            return Ok(await this.customerService.UpdateCustomer(customerId, customerRequest));
         }
 
         [HttpGet("search/{filter}")]
