@@ -13,6 +13,7 @@ namespace ECA.Infrastructure.Validators
         public ProductPriceRangeValidator()
         {
             RuleFor(x => x.MinPrice).GreaterThanOrEqualTo(0).WithMessage("Min price can not be less than 0");
+            RuleFor(x => x.MaxPrice).GreaterThan(x => x.MinPrice).WithMessage("min price can not be greater than max");
         }
     }
 }
